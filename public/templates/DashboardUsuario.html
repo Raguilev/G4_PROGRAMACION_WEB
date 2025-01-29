@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-md-3 bg-white d-flex flex-column align-items-center py-4 shadow">
+                <img src="https://via.placeholder.com/80" alt="Profile" class="rounded-circle mb-3">
+                <h5>Jessica Straus</h5>
+                <nav class="nav flex-column w-100 mt-4">
+                    <a class="nav-link active text-primary fw-bold" href="#">Dashboard</a>
+                    <a class="nav-link text-secondary" href="#">Gastos</a>
+                    <a class="nav-link text-secondary" href="#">Presupuestos</a>
+                    <a class="nav-link text-secondary" href="#">Configuración</a>
+                    <a class="nav-link text-secondary" href="#">Salir</a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="col-md-9 py-4">
+                <!-- Gráfico Mensual -->
+                <section class="mb-4">
+                    <h3 class="fw-bold mb-3">Gastos mensuales</h3>
+                    <div class="card p-3 shadow-sm">
+                        <div class="h-200"> <!-- Usamos ratio de Bootstrap -->
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Gráfico por Categoría -->
+                <section>
+                    <h3 class="fw-bold mb-3">Gastos por categoría</h3>
+                    <div class="card p-3 shadow-sm">
+                        <div class="h-100"> <!-- Usamos ratio de Bootstrap -->
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Gráfico Mensual
+        const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'Gastos mensuales',
+                    data: [3000, 1500, 2000, 2500, 2800, 1800, 1000, 2200, 2700, 2900, 3200, 1500],
+                    backgroundColor: '#007bff',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, /* Permite que el gráfico se ajuste al contenedor */
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    x: { 
+                        ticks: {
+                            font: {
+                                size: 13, 
+                            },
+                        },
+                        grid: {
+                            display: false, // Sin líneas verticales
+                        },
+                    },
+                    y: { 
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 13, 
+                            },
+                        },
+                    }
+                }
+            }
+        });
+
+        // Gráfico por Categoría
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Servicios', 'Ocio', 'Alimentación'],
+                datasets: [{
+                    label: 'Gastos por categoría',
+                    data: [4000, 2000, 3000],
+                    backgroundColor: ['#007bff', '#6c757d', '#ffc107'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, /* Permite que el gráfico se ajuste al contenedor */
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    x: { 
+                        grid: {
+                            display: false, // Sin líneas verticales
+                        },
+                        ticks: {
+                            font: {
+                                size: 13, 
+                            },
+                        },
+                    },
+                    y: { beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 13, 
+                            },
+                        },
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
