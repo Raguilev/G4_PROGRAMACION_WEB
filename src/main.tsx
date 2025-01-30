@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import DashboardUsuarioPage from './pages/DashboardUsuarioPage'
+import DashboardAdminPage from './pages/DashboardAdminPage'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 import {
@@ -17,6 +18,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DashboardUsuarioPage/>
+    <DashboardAdminPage/>
   </StrictMode>,
 )
