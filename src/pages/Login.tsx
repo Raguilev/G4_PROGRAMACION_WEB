@@ -4,7 +4,7 @@ import "../styles/Login.css";
 
 const users = [
   { name: "Roma", email: "roma@gmail.com", password: "12345", role: "user" },
-  { name: "Admin", email: "admin@user.c", password: "12345", role: "admin" }
+  { name: "Admin", email: "admin@admin.admin", password: "admin", role: "admin" }
 ];
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
 
       // 🔹 Redirige según el rol del usuario
       if (user.role === "admin") {
-        navigate("/admin");
+        navigate("/usuarios");
       } else {
         navigate("/profile");
       }

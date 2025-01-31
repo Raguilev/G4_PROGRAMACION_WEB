@@ -6,7 +6,8 @@ import EditExpenseModal from "./EditExpenseModal";
 import AddExpenseModal from "./AddExpenseModal";
 import DeleteExpenseModal from "./DeleteExpenseModal";
 import styles from "./Expenses.module.css";
-
+import ModalFiltrarGastos from "../Expenses/ModalFiltrarGastos"
+import ExportarPDF from "../../components/ExportarPDF";
 interface Expense {
     id: number;
     date: string;
@@ -33,7 +34,7 @@ const Expenses = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
-
+    const [showFilterModal, setShowFilterModal] = useState(false);
     useEffect(() => {
         const storedUser = sessionStorage.getItem("usuario");
         if (storedUser) {
@@ -83,8 +84,8 @@ const Expenses = () => {
                 <h2>Mis Gastos</h2>
     
                 <div className={styles.expenseActions}>
-                    <button className={styles.filterButton}>🔍 Filtrar</button>
-                    <button className={styles.exportButton}>📤 Exportar</button>
+                    <button className={styles.filterButton} onClick={() => setShowFilterModal(true)}>🔍 Filtrar</button>
+                    <ExportarPDF data={initialExpenses} filename="presupuestos.pdf" />
                     <button className={styles.addButton} onClick={() => setShowAddModal(true)}>➕ Agregar Gasto</button>
                 </div>
     
@@ -109,6 +110,7 @@ const Expenses = () => {
                 )}
                 {showAddModal && <AddExpenseModal closeModal={() => setShowAddModal(false)} addExpense={addExpense} />}
                 {showDeleteModal && <DeleteExpenseModal closeModal={() => setShowDeleteModal(false)} deleteExpense={deleteExpense} />}
+                {showFilterModal && <ModalFiltrarGastos showModal={showFilterModal} closeModal={() => setShowFilterModal(false)} />}
             </div>
         </div>
     );};
