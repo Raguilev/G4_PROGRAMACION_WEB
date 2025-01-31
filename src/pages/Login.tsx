@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
+import styles from "./Profile.module.css";
 
 const users = [
   { name: "Roma", email: "roma@gmail.com", password: "12345", role: "user" },
@@ -14,12 +15,15 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const user = users.find(u => u.email === email && u.password === password);
+    // Verifica si el usuario existe en el localStorage
+    const storedUser = JSON.parse(sessionStorage.getItem("usuario") || '{}');
+    const user = storedUser.email === email && storedUser.password === password ? storedUser : 
+                 users.find(u => u.email === email && u.password === password);
 
     if (user) {
       sessionStorage.setItem("usuario", JSON.stringify(user));
 
-      // 🔹 Redirige según el rol del usuario
+      // Redirige según el rol del usuario
       if (user.role === "admin") {
         navigate("/admin");
       } else {
@@ -49,11 +53,6 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-
-
-
-
         <a href="/forgot_password" className="d-block text-primary mb-3">
           ¿Olvidaste tu contraseña?
         </a>

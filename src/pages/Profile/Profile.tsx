@@ -4,6 +4,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import EditProfileModal from "./EditProfileModal";
 import styles from "./Profile.module.css";
 
+
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ name: string; email: string; password: string } | null>(null);
@@ -33,7 +34,7 @@ const Profile = () => {
             <div className={styles.profileCard}>
               <div className={styles.cardHeader}>
                 <h3>Información personal</h3>
-                <button className={styles.editButton} onClick={() => setShowModal(true)}>Editar</button>
+                <button className={styles.editButton} onClick={() => setShowModal(true)}>✏️Editar</button>
               </div>
               <p><strong>Nombre:</strong> {user.name}</p>
               <p><strong>Correo electrónico:</strong> {user.email}</p>

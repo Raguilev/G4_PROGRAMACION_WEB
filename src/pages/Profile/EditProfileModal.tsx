@@ -14,7 +14,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, closeModal, u
 
   const handleSave = () => {
     const updatedUser = { name, email, password };
-    sessionStorage.setItem("usuario", JSON.stringify(updatedUser));
+    localStorage.setItem("usuario", JSON.stringify(updatedUser));
     updateUser(updatedUser);
     closeModal();
   };
