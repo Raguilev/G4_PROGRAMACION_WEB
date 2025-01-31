@@ -1,27 +1,7 @@
 import { Bar } from 'react-chartjs-2';
+import GraficodeBarras from './GraficodeBarras';
 
 const GraficoGastoCategoria = () => {
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false },
-        },
-        scales: {
-            x: {
-                grid: { display: false },
-                ticks: {
-                    font: { size: 13 },
-                },
-            },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    font: { size: 13 },
-                },
-            },
-        },
-    };
 
     const labels = ['Servicios', 'Ocio', 'Alimentación'];
 
@@ -36,6 +16,6 @@ const GraficoGastoCategoria = () => {
         ],
     };
 
-    return <div h-100><Bar options={options} data={data} /></div>;
+    return <div h-100><Bar options={GraficodeBarras()} data={data} /></div>;
 };
 export default GraficoGastoCategoria;

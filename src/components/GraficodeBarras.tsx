@@ -9,13 +9,14 @@ const GraficodeBarras = () => {
             x: {
                 grid: { display: false },
                 ticks: {
-                    font: { size: 13 },
+                    font: { size: 15 },
                 },
             },
             y: {
+                grid: { display: true },
                 beginAtZero: true,
                 ticks: {
-                    font: { size: 13 },
+                    font: { size: 15 },
                 },
             },
         },

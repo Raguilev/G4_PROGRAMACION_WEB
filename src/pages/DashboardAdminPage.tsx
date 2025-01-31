@@ -1,29 +1,28 @@
 import GraficoUsuarios from "../components/GraficoUsuarios"
 import Sidebar from "../components/Sidebar"
 const DashboardAdminPage = () =>{
-    return <div className="container-fluid">
+    return <div className="container-fluid bg-light">
             <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-3 shadow-sm">
                     <Sidebar />
                 </div>
 
                 <div className="col-md-9 py-4">
-                    <h2 className="mb-4">Dashboard</h2>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="card p-4">
-                                <h5>Usuarios Totales</h5>
-                                <h3 className="display-4">12</h3>
+                    <h2 className="mb-4">Dashboards</h2>
+
+                    <div className="row mb-4">
+                        <div className="col-md-5">
+                            <div className="card p-4 bg-white shadow-sm">
+                                <h3>Usuarios Totales</h3>
+                                <h1 className="text-center">12</h1>
                             </div>
                         </div>
                     </div>
 
-                    <div className="chart-container">
-                        <canvas id="userChart"></canvas>
+                    <div className="card p-4 bg-white mb-4 shadow-sm">
+                        <h3 className="card-tittle mb-4">Usuarios nuevos por mes</h3>
+                        <GraficoUsuarios/>
                     </div>
-                    <div className="card p-3 shadow-sm">
-                    <GraficoUsuarios/>
-                </div>
                 </div>
             </div>
         </div>
