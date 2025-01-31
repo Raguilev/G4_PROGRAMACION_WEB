@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import Sidebar from "../components/sidebar/sidebar";
+import AdminSidebar from "../components/sidebar/admin_sidebar";
 
 interface User {
   id: string;
@@ -69,7 +69,7 @@ const EditarCuentasUsuario_Admin: React.FC = () => {
 
   return (
     <div className="d-flex">
-      <Sidebar />
+      <AdminSidebar />
       <div className="main-content">
         <div className="container-box">
           <header>

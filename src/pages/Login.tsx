@@ -61,7 +61,7 @@ const Login = () => {
           Ingresar
         </button>
         <div className="text-muted">O</div>
-        <button className="btn btn-dark">Registrarse</button>
+        <button className="btn btn-dark" onClick={() => navigate("/registro")}>Registrarse</button>
       </div>
     </div>
   );

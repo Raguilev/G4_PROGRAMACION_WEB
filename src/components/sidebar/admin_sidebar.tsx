@@ -2,7 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "../../styles/sidebar.module.css";
 import { useEffect, useState } from "react";
 
-const Sidebar = () => {
+const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Obtiene la ruta actual
   const [user, setUser] = useState<{ name: string; email: string; role: string } | null>(null);
@@ -29,9 +29,9 @@ const Sidebar = () => {
           <h3>{user.name}</h3>
           <p className={styles.email}>{user.email}</p>
           <nav>
-            <Link to="/dashboard" className={location.pathname === "/dashboard" ? styles.active : ""}>📊 Dashboard</Link>
-            <Link to="/usuarios" className={location.pathname === "/usuarios" ? styles.active : ""}>💰 Usuarios</Link>
-            <Link to="/historial" className={location.pathname === "/historial" ? styles.active : ""}>📉 Historial</Link>
+            <Link to="/admin_dashboard" className={location.pathname === "/admin_dashboard" ? styles.active : ""}>📊 Dashboard</Link>
+            <Link to="/usuarios" className={location.pathname === "/usuarios" ? styles.active : ""}> 👥Usuarios</Link>
+            <Link to="/historial" className={location.pathname === "/historial" ? styles.active : ""}>⏳ Historial</Link>
             <Link to="/profile" className={location.pathname === "/profile" ? styles.active : ""}>⚙️ Configuración</Link>
             <button className={styles.logoutButton} onClick={handleLogout}>🚪 Salir</button>
           </nav>
@@ -41,4 +41,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;
