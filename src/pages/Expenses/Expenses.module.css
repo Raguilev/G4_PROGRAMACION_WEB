@@ -1,0 +1,220 @@
+.mainLayout {
+  display: flex;
+  height: 100vh;
+  background: #f8f9fc; /* Fondo claro */
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  width: 100%;
+  
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Oscurecer fondo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 15px; /* Bordes redondeados */
+  width: 380px;
+  text-align: left;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+  animation: fadeIn 0.3s ease-in-out;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+  text-align: left;
+}
+.modal h2 {
+  margin-bottom: 15px;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+}
+.noData {
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: left;
+  margin: 10px 0;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  
+}
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.cancelButton {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background: #5a6268;
+}
+
+.saveButton {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background: #0056b3;
+}
+
+/* ======= TABLA ======= */
+.tableContainer {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.expenseTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+}
+
+.expenseTable thead {
+  background: #007bff;
+  color: white;
+  text-align: left;
+}
+
+.expenseTable th {
+  padding: 12px;
+  font-weight: bold;
+}
+
+.expenseTable tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 12px; /* Espaciado entre campos */
+}
+.expenseTable td {
+  padding: 10px;
+}
+
+.expenseTable tbody tr:hover {
+  background: #f1f1f1;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+}
+
+.editButton,
+.deleteButton {
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editButton {
+  background: #007bff;
+  color: white;
+}
+
+.editButton:hover {
+  background: #0056b3;
+}
+
+.deleteButton {
+  background: #dc3545;
+  color: white;
+}
+
+.deleteButton:hover {
+  background: #c82333;
+}
+
+.noData {
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+}
+
+/* ======= ANIMACIONES ======= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+}
+.filterButton,
+.exportButton,
+.addButton {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  
+  align-items: center;
+  gap: 5px; /* Espacio entre icono y texto */
+}

@@ -1,0 +1,22 @@
+.mainLayout {
+  display: flex;
+  height: 100vh; 
+}
+
+.sidebar {
+  width: 250px; 
+  height: 100vh;
+  background: #f4f4f9;
+  padding: 20px;
+  text-align: center;
+  flex-shrink: 0; 
+}
+
+.content {
+  flex-grow: 1; 
+  padding: 20px;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+}

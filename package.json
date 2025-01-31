@@ -1,5 +1,5 @@
 {
-  "name": "g4_pw",
+  "name": "login-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,11 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "chart.js": "^4.4.7",
     "react": "^18.3.1",
-    "react-chartjs-2": "^5.3.0",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
