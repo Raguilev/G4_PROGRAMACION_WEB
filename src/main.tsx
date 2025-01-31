@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import DashboardUsuarioPage from './pages/DashboardUsuarioPage'
-import Login from './pages/Registro'
+import registro from './pages/Registro'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 import {
