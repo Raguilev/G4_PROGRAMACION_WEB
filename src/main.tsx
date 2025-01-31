@@ -3,9 +3,9 @@ import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Correo from "./pages/CorreoConfirmacion";
 import Forgot from "./pages/Forgot"
-import Expenses from "./pages/Expenses/Expenses"
-import Profile from "./pages/Profile/Profile";
-import EditarCuentasUsuario_Admin from './components/EditarCuentasUsuario_Admin';
+import Expenses from "./pages/Expenses"
+import Profile from "./pages/Profile";
+/*import EditarCuentasUsuario_Admin from './components/EditarCuentasUsuario_Admin';*/
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,7 +13,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import DashboardAdmin from "./pages/DashboardAdminPage";
 import Dashboard from "./pages/DashboardUsuarioPage"
 import Historial from "./pages/HistorialAdmin";
-import Presupuestos from "./pages/budget/Presupuestos";
+/*import Presupuestos from "./pages/budget/Presupuestos"*/
 
 
 

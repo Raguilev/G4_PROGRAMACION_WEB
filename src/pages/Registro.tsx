@@ -1,39 +1,43 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CorreoConfirmacion from "../pages/CorreoConfirmacion";
 
 const Registro = () => {
     const [isRegistered, setIsRegistered] = useState(false);
+    const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="container d-flex justify-content-center align-items-center vh-100">
             {!isRegistered ? (
-                <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-                    <div className="bg-white p-4 rounded shadow-lg text-center" style={{ maxWidth: "450px", width: "90%" }}>
-                        <h2 className="fw-bold text-dark">Registro</h2>
+                <div className="card p-4 shadow-sm" style={{ maxWidth: "450px", width: "90%" }}>
+                    <h2 className="fw-bold text-center">Registro</h2>
+                    <div className="mb-3">
                         <input
                             type="text"
-                            className="form-control my-3"
+                            className="form-control"
                             placeholder="Nombre de usuario"
                         />
+                    </div>
+                    <div className="mb-3">
                         <input
                             type="email"
-                            className="form-control my-3"
+                            className="form-control"
                             placeholder="Correo de usuario"
                         />
+                    </div>
+                    <div className="mb-3">
                         <input
                             type="password"
-                            className="form-control my-3"
+                            className="form-control"
                             placeholder="Contraseña"
                         />
-                        <button className="btn btn-primary w-100 mt-3" onClick={() => setIsRegistered(true)}>
-                            Registrar
-                        </button>
                     </div>
+                    <button className="btn btn-primary w-100" onClick={() => setIsRegistered(true)}>
+                        Registrar
+                    </button>
                 </div>
             ) : (
-                <div>
-                    <CorreoConfirmacion />
-                </div>
+                <CorreoConfirmacion />
             )}
         </div>
     );

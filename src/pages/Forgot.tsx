@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Login.css";
 
 const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -18,24 +17,28 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2 className="text-center">Nueva contraseña</h2>
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4 shadow-sm" style={{ maxWidth: "400px", width: "90%" }}>
+        <h2 className="text-center mb-3">Nueva contraseña</h2>
         {error && <p className="text-danger text-center">{error}</p>}
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Nueva contraseña"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Re-escribir nueva contraseña"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+        <div className="mb-3">
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Nueva contraseña"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Re-escribir nueva contraseña"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
         <button className="btn btn-primary w-100" onClick={handleResetPassword}>
           Aceptar
         </button>

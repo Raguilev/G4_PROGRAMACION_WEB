@@ -1,4 +1,4 @@
-import Sidebar from "../components/sidebar/sidebar"
+import Sidebar from "../components/sidebar/user_sidebar"
 import GraficoGastoMensual from "../components/graficos/GraficoGastoMensual"
 import GraficoGastoCategoria from "../components/graficos/GraficoGastoCategoria"
 

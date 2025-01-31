@@ -1,9 +1,0 @@
-.custom-table-header {
-    --bs-table-bg: rgb(63, 131, 235); 
-    --bs-table-color: white; 
-}
-
-.rounded-table {
-    border-radius: 10px; 
-    overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
-}
