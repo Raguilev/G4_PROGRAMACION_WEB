@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import DashboardUsuarioPage from './pages/DashboardUsuarioPage'
-import registro from './pages/Registro'
+import Registro from './pages/Registro'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 import {
@@ -14,10 +14,11 @@ import {
   Legend,
 } from 'chart.js';
 
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DashboardUsuarioPage/>
+    <Registro/>
   </StrictMode>,
 )
