@@ -39,13 +39,13 @@ interface HistorialItem {
                 <td>{item.hora}</td>
                 <td>
                   {item.accion === "Borrar" ? (
-                    <button className="btn btn-danger btn-sm">Borrar</button>
+                    <p className="text-danger m-0 fw-bold">Borrar ❌</p>
                   ) : item.accion === "Agregar" ? (
-                    <button className="btn btn-success btn-sm">Agregar</button>
+                    <p className="text-success m-0 fw-bold">Agregar ✚</p>
                   ) : (
-                    <button className="btn btn-warning btn-sm">Editar</button>
+                    <p className="m-0 fw-bold" style={{ color: '#ff822d' }}>Editar ✏️</p>
                   )}
-                </td>
+              </td>
               </tr>
             ))}
           </tbody>
