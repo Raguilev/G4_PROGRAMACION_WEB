@@ -1,10 +1,12 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import LogoutModal from "../modales/ModalCerrarSesion";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState<{ name: string; email: string; role: string } | null>(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false); // Estado para mostrar el modal
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("usuario");
@@ -19,6 +21,13 @@ const AdminSidebar = () => {
     sessionStorage.removeItem("usuario");
     navigate("/");
   };
+
+  const navItems = [
+    { path: "/admin_dashboard", label: "Dashboard", icon: "/assets_admin/grafico_admin.png" },
+    { path: "/usuarios", label: "Usuarios", icon: "/assets_admin/usuarios.png" },
+    { path: "/historial", label: "Historial", icon: "/assets_admin/historial.png" },
+    { path: "/admin_profile", label: "Configuración", icon: "/assets_admin/configuracion_admin.png" }
+  ];
 
   return (
     <>
@@ -37,73 +46,39 @@ const AdminSidebar = () => {
               <p className="text-muted small">{user.email}</p>
             </div>
 
-
             <nav className="nav flex-column">
-              <Link
-                to="/admin_dashboard"
-                className={`nav-link py-2 d-flex align-items-center ${
-                  location.pathname === "/admin_dashboard" ? "active text-white bg-primary rounded" : "text-dark"
-                }`}
-              >
-                <img src="/assets_admin/grafico.png" alt="Dashboard" width="20" className="me-2" /> Dashboard
-              </Link>
-
-              <Link
-                to="/usuarios"
-                className={`nav-link py-2 d-flex align-items-center ${
-                  location.pathname === "/usuarios" ? "active text-white bg-primary rounded" : "text-dark"
-                }`}
-              >
-                <img src="/assets_admin/historial.png" alt="Usuarios" width="20" className="me-2" /> Usuarios
-              </Link>
-
-              <Link
-                to="/historial"
-                className={`nav-link py-2 d-flex align-items-center ${
-                  location.pathname === "/historial" ? "active text-white bg-primary rounded" : "text-dark"
-                }`}
-              >
-                <img src="/assets_admin/historial.png" alt="Historial" width="20" className="me-2" /> Historial
-              </Link>
-
-              <Link
-                to="/profile"
-                className={`nav-link py-2 d-flex align-items-center ${
-                  location.pathname === "/profile" ? "active text-white bg-primary rounded" : "text-dark"
-                }`}
-              >
-                <img src="/assets_admin/configuracion.png" alt="Configuración" width="20" className="me-2" /> Configuración
-              </Link>
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.path}
+                  className={`nav-link py-2 d-flex align-items-center ${
+                    location.pathname === item.path
+                      ? "active text-white bg-primary rounded"
+                      : "text-dark"
+                  }`}
+                >
+                  <img src={item.icon} alt={item.label} width="20" className="me-2" />
+                  {item.label}
+                </Link>
+              ))}
 
               <button
                 className="nav-link py-2 text-danger border-0 bg-transparent text-start d-flex align-items-center mt-3"
-                data-bs-toggle="modal"
-                data-bs-target="#logoutModal"
+                onClick={() => setShowLogoutModal(true)}
               >
-                <img src="/assets_admin/salida.png" alt="Salir" width="20" className="me-2" /> Salir
+                <img src="/assets_admin/salida_admin.png" alt="Salir" width="20" className="me-2" />
+                Salir
               </button>
             </nav>
           </>
         )}
       </div>
 
-      <div className="modal fade" id="logoutModal" tabIndex={-1} aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="logoutModalLabel">¡Aviso!</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              ¿Está seguro de que desea cerrar sesión?
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
-              <button type="button" className="btn btn-primary" onClick={handleLogout}>Sí</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <LogoutModal
+        showModal={showLogoutModal}
+        closeModal={() => setShowLogoutModal(false)}
+        confirmLogout={handleLogout}
+      />
     </>
   );
 };

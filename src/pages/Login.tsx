@@ -25,7 +25,7 @@ const Login = () => {
       sessionStorage.setItem("usuario", JSON.stringify(user));
       
       if (user.role === "admin") {
-        navigate("/admin_profile"); 
+        navigate("/admin_dashboard"); 
       } else {
         navigate("/dashboard");
       }
