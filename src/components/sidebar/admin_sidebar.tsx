@@ -1,10 +1,12 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ModalCerrarSesionAdmin from "../modales/ModalCerrarSesionAdmin";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState<{ name: string; email: string; role: string } | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("usuario");
@@ -67,9 +69,9 @@ const AdminSidebar = () => {
               </Link>
 
               <Link
-                to="/profile"
+                to="/admin_profile"
                 className={`nav-link py-2 d-flex align-items-center ${
-                  location.pathname === "/profile" ? "active text-white bg-primary rounded" : "text-dark"
+                  location.pathname === "/admin_profile" ? "active text-white bg-primary rounded" : "text-dark"
                 }`}
               >
                 <img src="/assets_admin/configuracion.png" alt="Configuración" width="20" className="me-2" /> Configuración
@@ -79,6 +81,7 @@ const AdminSidebar = () => {
                 className="nav-link py-2 text-danger border-0 bg-transparent text-start d-flex align-items-center mt-3"
                 data-bs-toggle="modal"
                 data-bs-target="#logoutModal"
+                onClick={()=>setShowModal(true)}
               >
                 <img src="/assets_admin/salida.png" alt="Salir" width="20" className="me-2" /> Salir
               </button>
@@ -87,23 +90,12 @@ const AdminSidebar = () => {
         )}
       </div>
 
-      <div className="modal fade" id="logoutModal" tabIndex={-1} aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="logoutModalLabel">¡Aviso!</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              ¿Está seguro de que desea cerrar sesión?
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
-              <button type="button" className="btn btn-primary" onClick={handleLogout}>Sí</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ModalCerrarSesionAdmin showModal={showModal}
+                              closeModal={()=>{
+                                setShowModal(false)
+                              }}
+                              confirmLogout={handleLogout}/>
+
     </>
   );
 };
