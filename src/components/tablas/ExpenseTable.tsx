@@ -1,4 +1,4 @@
-import styles from "./Expenses.module.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Expense {
   id: number;
@@ -17,9 +17,9 @@ interface ExpenseTableProps {
 
 const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, openEdit, openDelete }) => {
   return (
-    <div className={styles.tableContainer}>
-      <table className={styles.expenseTable}>
-        <thead>
+    <div className="table-responsive">
+      <table className="table table-bordered table-hover">
+        <thead className="table-primary text-center">
           <tr>
             <th>Fecha</th>
             <th>Categoría</th>
@@ -32,21 +32,29 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, openEdit, openDel
         <tbody>
           {expenses.length > 0 ? (
             expenses.map((expense) => (
-              <tr key={expense.id}>
+              <tr key={expense.id} className="text-center">
                 <td>{expense.date}</td>
                 <td>{expense.category}</td>
-                <td>{expense.description}</td>
-                <td>{expense.recurring ? "Sí" : "No"}</td>
-                <td>S/. {expense.amount.toFixed(2)}</td>
-                <td className={styles.actions}>
-                  <button className={styles.editButton} onClick={() => openEdit(expense)}>✏️</button>
-                  <button className={styles.deleteButton} onClick={() => openDelete(expense.id)}>🗑️</button>
+                <td className="text-start">{expense.description}</td>
+                <td>
+                  <span className={`badge ${expense.recurring ? "bg-success" : "bg-secondary"}`}>
+                    {expense.recurring ? "Sí" : "No"}
+                  </span>
+                </td>
+                <td><strong>S/. {expense.amount.toFixed(2)}</strong></td>
+                <td>
+                  <button className="btn btn-light btn-sm me-2" onClick={() => openEdit(expense)}>
+                    ✏️
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={() => openDelete(expense.id)}>
+                    🗑️
+                  </button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={6} className={styles.noData}>No hay gastos registrados</td>
+              <td colSpan={6} className="text-center text-muted">No hay gastos registrados</td>
             </tr>
           )}
         </tbody>

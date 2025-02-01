@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import AdminSidebar from "../components/sidebar/admin_sidebar";
+import AdminSidebar from "../sidebar/admin_sidebar";
 
 interface User {
   id: string;
@@ -19,7 +19,7 @@ const EditarCuentasUsuario_Admin: React.FC = () => {
 
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [newUser, setNewUser] = useState<User>({ id: '', name: '', email: '', password: '', role: 'User' });
-  const [filterRole, setFilterRole] = useState<'All' | 'Admin' | 'User'>('All'); // Estado para el filtro
+  const [filterRole, setFilterRole] = useState<'All' | 'Admin' | 'User'>('All');
   const editModalRef = useRef<HTMLDivElement>(null);
   const addModalRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,7 @@ const EditarCuentasUsuario_Admin: React.FC = () => {
   
   const addUser = () => {
     if (!newUser.name || !newUser.email || !newUser.password) return;
-    const newId = (users.length + 1).toString().padStart(3, '0'); // Generar ID único
+    const newId = (users.length + 1).toString().padStart(3, '0');
     setUsers([...users, { ...newUser, id: newId }]);
     closeAddModal();
   };

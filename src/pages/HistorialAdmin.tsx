@@ -1,83 +1,31 @@
-import Sidebar from "../components/sidebar/admin_sidebar"
-import "./HistorialAdmin.css"
-const HistorialAdmin = () =>{
-    return (
-        <div className="container-fluid  bg-light">
-            <div className="row">
+import Sidebar from "../components/sidebar/admin_sidebar";
+import HistorialTable from "../components/tablas/HistorialTable";
 
-                <div className="col-md-3 col-lg-2 vh-100">
-                    <Sidebar />
-                </div>
-
-
-                <div className="col-md-9 col-lg-10 py-4 d-flex flex-column">
-                    <div className="container">
-                        <div className="row">
-                            <h2 className="mb-4">Historial</h2>
-                            <div className="table">
-                                <table className="table table-hover rounded-table">
-                                    <thead className="custom-table-header">
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Nombre</th>
-                                            <th>Correo</th>
-                                            <th>Fecha</th>
-                                            <th>Hora</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>001</td>
-                                            <td>Jessica</td>
-                                            <td>jess@taxes.com</td>
-                                            <td>12/12/2024</td>
-                                            <td>17:50</td>
-                                            <td><button className="btn btn-danger btn-sm">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>002</td>
-                                            <td>Jhon</td>
-                                            <td>jon@taxes.com</td>
-                                            <td>17/12/2024</td>
-                                            <td>19:50</td>
-                                            <td><button className="btn btn-success btn-sm">Agregar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>003</td>
-                                            <td>Diego</td>
-                                            <td>dieg@taxes.com</td>
-                                            <td>22/12/2024</td>
-                                            <td>14:20</td>
-                                            <td><button className="btn btn-warning btn-sm">Editar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>004</td>
-                                            <td>Juan</td>
-                                            <td>juan@taxes.com</td>
-                                            <td>02/12/2024</td>
-                                            <td>13:50</td>
-                                            <td><button className="btn btn-danger btn-sm">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>005</td>
-                                            <td>Luis</td>
-                                            <td>luis@taxes.com</td>
-                                            <td>07/12/2024</td>
-                                            <td>12:50</td>
-                                            <td><button className="btn btn-danger btn-sm">Borrar</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> 
-
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+const HistorialAdmin = () => {
+  return (
+    <div className="container-fluid bg-light">
+      <div className="row">
+        <div className="col-md-3 col-lg-2 vh-100">
+          <Sidebar />
         </div>
-    )
-}
-export default HistorialAdmin
+
+        <div className="col-md-9 col-lg-10 py-4 d-flex flex-column">
+          <div className="container">
+            <div className="row">
+              <h2 className="mb-4">Historial</h2>
+              <HistorialTable data={[
+                { id: "001", nombre: "Jessica", correo: "jess@taxes.com", fecha: "12/12/2024", hora: "17:50", accion: "Borrar" },
+                { id: "002", nombre: "Jhon", correo: "jon@taxes.com", fecha: "17/12/2024", hora: "19:50", accion: "Agregar" },
+                { id: "003", nombre: "Diego", correo: "dieg@taxes.com", fecha: "22/12/2024", hora: "14:20", accion: "Editar" },
+                { id: "004", nombre: "Juan", correo: "juan@taxes.com", fecha: "02/12/2024", hora: "13:50", accion: "Borrar" },
+                { id: "005", nombre: "Luis", correo: "luis@taxes.com", fecha: "07/12/2024", hora: "12:50", accion: "Borrar" }
+              ]} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HistorialAdmin;

@@ -6,7 +6,7 @@ import EditExpenseModal from "../components/modales/EditExpenseModal";
 import AddExpenseModal from "../components/modales/AddExpenseModal";
 import DeleteExpenseModal from "../components/modales/DeleteExpenseModal";
 import ModalFiltrarGastos from "../components/modales/ModalFiltrarGastos";
-import ExportarPDF from "../components/modales/ExportarPDF";
+import ExportarDatos from "../components/modales/ExportarDatos";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Expense {
@@ -36,7 +36,7 @@ const Expenses = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
     const [showFilterModal, setShowFilterModal] = useState(false);
-    
+
     useEffect(() => {
         const storedUser = sessionStorage.getItem("usuario");
         if (storedUser) {
@@ -44,7 +44,7 @@ const Expenses = () => {
         } else {
             navigate("/");
         }
-        
+
         const storedExpenses = localStorage.getItem("gastos");
         if (storedExpenses) {
             setExpenses(JSON.parse(storedExpenses));
@@ -59,14 +59,18 @@ const Expenses = () => {
             <div className="row">
                 <div className="col-md-2 bg-light vh-100">
                     <Sidebar />
-                </div>
+                </div>  
+
                 <div className="col-md-10 p-4">
                     <h2 className="mb-4">Mis Gastos</h2>
+
                     <div className="d-flex gap-2 mb-3">
                         <button className="btn btn-outline-primary" onClick={() => setShowFilterModal(true)}>🔍 Filtrar</button>
-                        <ExportarPDF data={initialExpenses} filename="presupuestos.pdf" />
+                        <ExportarDatos data={expenses} filename="gastos" />
                         <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>➕ Agregar Gasto</button>
                     </div>
+
+
                     <ExpenseTable
                         expenses={expenses}
                         openEdit={(expense) => {
@@ -78,6 +82,7 @@ const Expenses = () => {
                             setShowDeleteModal(true);
                         }}
                     />
+
                     {showEditModal && selectedExpense && (
                         <EditExpenseModal
                             expense={selectedExpense}
@@ -91,20 +96,29 @@ const Expenses = () => {
                             }}
                         />
                     )}
+
                     {showAddModal && (
-                        <AddExpenseModal closeModal={() => setShowAddModal(false)} addExpense={(newExpense) => {
-                            setExpenses([...expenses, newExpense]);
-                            localStorage.setItem("gastos", JSON.stringify([...expenses, newExpense]));
-                        }} />
+                        <AddExpenseModal
+                            closeModal={() => setShowAddModal(false)}
+                            addExpense={(newExpense) => {
+                                setExpenses([...expenses, newExpense]);
+                                localStorage.setItem("gastos", JSON.stringify([...expenses, newExpense]));
+                            }}
+                        />
                     )}
+
                     {showDeleteModal && (
-                        <DeleteExpenseModal closeModal={() => setShowDeleteModal(false)} deleteExpense={() => {
-                            if (expenseToDelete !== null) {
-                                setExpenses(expenses.filter((expense) => expense.id !== expenseToDelete));
-                                localStorage.setItem("gastos", JSON.stringify(expenses.filter((expense) => expense.id !== expenseToDelete)));
-                            }
-                        }} />
+                        <DeleteExpenseModal
+                            closeModal={() => setShowDeleteModal(false)}
+                            deleteExpense={() => {
+                                if (expenseToDelete !== null) {
+                                    setExpenses(expenses.filter((expense) => expense.id !== expenseToDelete));
+                                    localStorage.setItem("gastos", JSON.stringify(expenses.filter((expense) => expense.id !== expenseToDelete)));
+                                }
+                            }}
+                        />
                     )}
+
                     {showFilterModal && (
                         <ModalFiltrarGastos showModal={showFilterModal} closeModal={() => setShowFilterModal(false)} />
                     )}

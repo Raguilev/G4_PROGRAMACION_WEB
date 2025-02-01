@@ -6,12 +6,11 @@ const DashboardUsuarioPage = () => {
     return (
         <div className="container-fluid bg-light">
             <div className="row">
-                {/* Sidebar */}
+
                 <div className="col-md-3 col-lg-2 shadow-sm vh-100">
                     <Sidebar />
                 </div>
 
-                {/* Contenido Principal */}
                 <div className="col-md-9 col-lg-10 py-4 d-flex flex-column">
                     <div className="container">
                         <div className="row">

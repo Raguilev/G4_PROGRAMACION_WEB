@@ -8,7 +8,6 @@ import {
     Legend
   } from "chart.js";
   
-  // Registra los módulos necesarios
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
   
 const GraficodeBarras = () => {
