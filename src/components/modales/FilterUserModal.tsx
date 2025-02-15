@@ -9,6 +9,8 @@ const FilterUserModal: React.FC<FilterUserModalProps> = ({ show, onHide, filterU
   const [role, setRole] = useState<"Admin" | "User">("User");
 
   return (
+    <>
+    {show && <div className="modal-backdrop fade show"></div>}
     <div className={`modal ${show ? "d-block" : "d-none"}`}>
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content p-4">
@@ -24,6 +26,7 @@ const FilterUserModal: React.FC<FilterUserModalProps> = ({ show, onHide, filterU
         </div>
       </div>
     </div>
+    </>
   );
 };
 

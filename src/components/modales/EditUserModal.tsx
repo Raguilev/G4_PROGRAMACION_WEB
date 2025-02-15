@@ -30,6 +30,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updat
   };
 
   return (
+    <>
+    {show && <div className="modal-backdrop fade show"></div>}
     <div className={`modal ${show ? "d-block" : "d-none"}`}>
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content p-4">
@@ -52,6 +54,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updat
         </div>
       </div>
     </div>
+    </>
   );
 };
 

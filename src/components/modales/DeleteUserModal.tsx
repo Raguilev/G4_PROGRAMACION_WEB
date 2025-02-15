@@ -7,7 +7,9 @@ interface DeleteUserModalProps {
 }
 
 const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ show, onHide, confirmDelete }) => (
-  <div className={`modal ${show ? "d-block" : "d-none"}`}>
+  <>
+  {show && <div className="modal-backdrop fade show"></div>}
+  <div className={`modal ${show ? "d-block " : "d-none"}`}>
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content p-4 text-center">
         <h4>¡Aviso!</h4>
@@ -19,6 +21,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ show, onHide, confirm
       </div>
     </div>
   </div>
+  </>
 );
 
 export default DeleteUserModal;

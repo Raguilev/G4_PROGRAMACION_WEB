@@ -5,6 +5,8 @@ interface DeleteBudgetModalProps {
   
   const DeleteBudgetModal: React.FC<DeleteBudgetModalProps> = ({ closeModal, deleteBudget }) => {
     return (
+      <>
+      <div className="modal-backdrop fade show"></div>
       <div className="modal show d-block">
         <div className="modal-dialog modal-sm modal-dialog-centered">
           <div className="modal-content p-4 rounded-4 shadow-lg text-center">
@@ -21,6 +23,7 @@ interface DeleteBudgetModalProps {
           </div>
         </div>
       </div>
+      </>
     );
   };
   

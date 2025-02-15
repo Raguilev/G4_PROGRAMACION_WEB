@@ -29,6 +29,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ expense, closeModal
   };
 
   return (
+    <><div className="modal-backdrop fade show"></div>
     <div className="modal fade show d-block" tabIndex={-1}>
       <div className="modal-dialog">
         <div className="modal-content">
@@ -65,6 +66,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ expense, closeModal
         </div>
       </div>
     </div>
+    </>
   );
 };
 

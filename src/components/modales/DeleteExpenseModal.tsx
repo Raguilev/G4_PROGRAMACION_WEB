@@ -5,6 +5,8 @@ interface DeleteExpenseModalProps {
 
 const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ closeModal, deleteExpense }) => {
   return (
+    <>
+    <div className="modal-backdrop fade show"></div>
     <div className="modal fade show d-block" tabIndex={-1}>
       <div className="modal-dialog">
         <div className="modal-content">
@@ -22,6 +24,7 @@ const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ closeModal, del
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -20,6 +20,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, showModal, cl
   };
 
   return (
+    <>
+    {showModal && <div className="modal-backdrop fade show"></div>}
     <div className={showModal ? "modal fade show d-block" : "modal fade"}>
       <div className="modal-dialog">
         <div className="modal-content">
@@ -48,6 +50,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, showModal, cl
         </div>
       </div>
     </div>
+    </>
   );
 };
 

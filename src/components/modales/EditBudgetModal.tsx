@@ -17,6 +17,8 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ closeModal, budget, u
   };
 
   return (
+    <>
+    <div className="modal-backdrop fade show"></div>
     <div className="modal show d-block">
       <div className="modal-dialog modal-lg modal-dialog-centered">
         <div className="modal-content p-4 rounded-4 shadow-lg">
@@ -46,6 +48,7 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ closeModal, budget, u
         </div>
       </div>
     </div>
+    </>
   );
 };
 

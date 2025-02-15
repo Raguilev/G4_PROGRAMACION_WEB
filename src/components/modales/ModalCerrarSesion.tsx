@@ -6,6 +6,8 @@ interface LogoutModalProps {
   
   const LogoutModal: React.FC<LogoutModalProps> = ({ showModal, closeModal, confirmLogout }) => {
     return (
+      <>
+      {showModal && <div className="modal-backdrop fade show"></div>}
       <div className={`modal fade ${showModal ? "show d-block" : ""}`} tabIndex={-1}>
         <div className="modal-dialog modal-sm modal-dialog-centered">
           <div className="modal-content p-4 rounded-4 shadow-lg text-center">
@@ -22,6 +24,7 @@ interface LogoutModalProps {
           </div>
         </div>
       </div>
+      </>
     );
   };
   
