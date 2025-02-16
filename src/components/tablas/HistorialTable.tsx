@@ -1,4 +1,4 @@
-interface HistorialItem {
+export interface HistorialItem {
     id: string;
     nombre: string;
     correo: string;
@@ -7,15 +7,11 @@ interface HistorialItem {
     accion: string;
   }
   
-  const historialData: HistorialItem[] = [
-    { id: "001", nombre: "Jessica", correo: "jess@taxes.com", fecha: "12/12/2024", hora: "17:50", accion: "Borrar" },
-    { id: "002", nombre: "Jhon", correo: "jon@taxes.com", fecha: "17/12/2024", hora: "19:50", accion: "Agregar" },
-    { id: "003", nombre: "Diego", correo: "dieg@taxes.com", fecha: "22/12/2024", hora: "14:20", accion: "Editar" },
-    { id: "004", nombre: "Juan", correo: "juan@taxes.com", fecha: "02/12/2024", hora: "13:50", accion: "Borrar" },
-    { id: "005", nombre: "Luis", correo: "luis@taxes.com", fecha: "07/12/2024", hora: "12:50", accion: "Borrar" }
-  ];
+  interface HistorialTableProps{
+    data : HistorialItem[]
+  }
   
-  const HistorialTable = ({ data }: { data: HistorialItem[] }) => {
+  const HistorialTable = (props : HistorialTableProps) => {
     return (
       <div className="table-responsive">
         <table className="table table-hover rounded-table">
@@ -30,7 +26,7 @@ interface HistorialItem {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {props.data.map((item:HistorialItem) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.nombre}</td>

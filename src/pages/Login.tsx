@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -12,6 +12,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const usuarioStr = sessionStorage.getItem("usuario");
+    if (usuarioStr) {
+      const usuario = JSON.parse(usuarioStr);
+      const ruta = usuario.role === "admin" ? "/admin_dashboard" : "/dashboard";
+      navigate(ruta);
+    }
+  }, [navigate])
 
   const handleLogin = () => {
     const trimmedEmail = email.trim();
@@ -23,7 +32,7 @@ const Login = () => {
 
     if (user) {
       sessionStorage.setItem("usuario", JSON.stringify(user));
-      
+
       if (user.role === "admin") {
         navigate("/admin_dashboard"); 
       } else {

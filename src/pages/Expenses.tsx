@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Sidebar from "../components/sidebar/user_sidebar";
-import ExpenseTable from "../components/tablas/ExpenseTable";
+import ExpenseTable, { Expense } from "../components/tablas/ExpenseTable";
 import EditExpenseModal from "../components/modales/EditExpenseModal";
 import AddExpenseModal from "../components/modales/AddExpenseModal";
 import DeleteExpenseModal from "../components/modales/DeleteExpenseModal";
@@ -9,14 +8,6 @@ import ModalFiltrarGastos from "../components/modales/ModalFiltrarGastos";
 import ExportarDatos from "../components/modales/ExportarDatos";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-interface Expense {
-    id: number;
-    date: string;
-    category: string;
-    description: string;
-    recurring: boolean;
-    amount: number;
-}
 
 const initialExpenses: Expense[] = [
     { id: 1, date: "2024-12-12", category: "Ocio", description: "Libro de Stephen King", recurring: false, amount: 29.99 },
@@ -27,9 +18,8 @@ const initialExpenses: Expense[] = [
 ];
 
 const Expenses = () => {
-    const navigate = useNavigate();
-    const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+
+    const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
     const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -37,27 +27,10 @@ const Expenses = () => {
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
     const [showFilterModal, setShowFilterModal] = useState(false);
 
-    useEffect(() => {
-        const storedUser = sessionStorage.getItem("usuario");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        } else {
-            navigate("/");
-        }
-
-        const storedExpenses = localStorage.getItem("gastos");
-        if (storedExpenses) {
-            setExpenses(JSON.parse(storedExpenses));
-        } else {
-            setExpenses(initialExpenses);
-            localStorage.setItem("gastos", JSON.stringify(initialExpenses));
-        }
-    }, [navigate]);
-
     return (
-        <div className="container-fluid">
+        <div className="container-fluid bg-light">
             <div className="row">
-                <div className="col-md-2 bg-light vh-100">
+                <div className="col-md-3 col-lg-2">
                     <Sidebar />
                 </div>  
 

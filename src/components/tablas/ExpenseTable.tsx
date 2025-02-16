@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-interface Expense {
+export interface Expense {
   id: number;
   date: string;
   category: string;
@@ -15,7 +15,7 @@ interface ExpenseTableProps {
   openDelete: (expenseId: number) => void;
 }
 
-const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, openEdit, openDelete }) => {
+const ExpenseTable: React.FC<ExpenseTableProps> = (props: ExpenseTableProps) => {
   return (
     <div className="table-responsive">
       <table className="table table-bordered table-hover">
@@ -30,8 +30,8 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, openEdit, openDel
           </tr>
         </thead>
         <tbody>
-          {expenses.length > 0 ? (
-            expenses.map((expense) => (
+          {props.expenses.length > 0 ? (
+            props.expenses.map((expense : Expense) => (
               <tr key={expense.id} className="text-center">
                 <td>{expense.date}</td>
                 <td>{expense.category}</td>
@@ -43,10 +43,10 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, openEdit, openDel
                 </td>
                 <td><strong>S/. {expense.amount.toFixed(2)}</strong></td>
                 <td>
-                  <button className="btn btn-light btn-sm me-2" onClick={() => openEdit(expense)}>
+                  <button className="btn btn-primary btn-sm me-2" onClick={() => props.openEdit(expense)}>
                     ✏️
                   </button>
-                  <button className="btn btn-danger btn-sm" onClick={() => openDelete(expense.id)}>
+                  <button className="btn btn-danger btn-sm" onClick={() => props.openDelete(expense.id)}>
                     🗑️
                   </button>
                 </td>

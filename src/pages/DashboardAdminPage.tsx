@@ -5,8 +5,7 @@ const DashboardAdminPage = () => {
   return (
     <div className="container-fluid bg-light">
       <div className="row">
-
-        <div className="col-md-3 col-lg-2 vh-100">
+        <div className="col-md-3 col-lg-2">
           <Sidebar />
         </div>
 
@@ -15,10 +14,10 @@ const DashboardAdminPage = () => {
             <h2 className="mb-4">Dashboards</h2>
 
             <div className="row mb-4">
-              <div className="col-md-5">
+              <div className="col-md-6">
                 <div className="card p-4 bg-white shadow-sm text-center">
-                  <h4 className="mb-3">Usuarios Totales</h4>
-                  <h1 className="display-4">12</h1>
+                  <h4 className="mb-3 text-start">Usuarios Totales</h4>
+                  <h2>12</h2>
                 </div>
               </div>
             </div>
