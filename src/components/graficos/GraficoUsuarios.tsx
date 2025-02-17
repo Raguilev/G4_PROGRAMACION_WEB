@@ -3,7 +3,11 @@ import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip } from "c
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
-const GraficoUsuarios = () => {
+interface GraficoUsuariosProps {
+  monthlyData: number[];
+}
+
+const GraficoUsuarios = (props : GraficoUsuariosProps) => {
   const labels = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
   const data = {
@@ -11,7 +15,7 @@ const GraficoUsuarios = () => {
     datasets: [
       {
         label: "Usuarios nuevos por mes",
-        data: [700, 300, 600, 250, 650, 100, 300, 50, 400, 750, 600, 200],
+        data: props.monthlyData,
         backgroundColor: "#4285F4",
         borderRadius: 5,
       },

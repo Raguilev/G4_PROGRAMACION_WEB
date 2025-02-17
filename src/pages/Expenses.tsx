@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/user_sidebar";
 import ExpenseTable, { Expense } from "../components/tablas/ExpenseTable";
 import EditExpenseModal from "../components/modales/EditExpenseModal";
@@ -9,23 +9,33 @@ import ExportarDatos from "../components/modales/ExportarDatos";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
-const initialExpenses: Expense[] = [
-    { id: 1, date: "2024-12-12", category: "Ocio", description: "Libro de Stephen King", recurring: false, amount: 29.99 },
-    { id: 2, date: "2024-12-02", category: "Servicios", description: "Servicio de luz", recurring: true, amount: 229.99 },
-    { id: 3, date: "2024-12-02", category: "Servicios", description: "Servicio de agua", recurring: true, amount: 129.99 },
-    { id: 4, date: "2024-12-05", category: "Servicios", description: "Movistar", recurring: true, amount: 169.99 },
-    { id: 5, date: "2024-12-05", category: "Alimentación", description: "Compras del mes", recurring: true, amount: 369.99 },
-];
 
 const Expenses = () => {
-
-    const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
+    const [expenses, setExpenses] = useState<Expense[]>([]);
     const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
     const [showFilterModal, setShowFilterModal] = useState(false);
+
+    const httpObtenerExpenses = async () => {
+        const url = "http://localhost:5000/expenses"
+        const resp = await fetch(url)
+        const data = await resp.json()
+        if (data.msg == "") {
+            const listaExpenses = data.expenses
+            setExpenses(listaExpenses)
+            console.log(listaExpenses)
+        }else {
+            console.error(`Error al obtener proyectos: ${data.msg}`)
+        }
+        
+    }
+
+    useEffect( ()=> {
+        httpObtenerExpenses()
+    },[])
 
     return (
         <div className="container-fluid bg-light">

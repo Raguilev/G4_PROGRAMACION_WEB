@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/admin_sidebar";
 import HistorialTable, { HistorialItem } from "../components/tablas/HistorialTable";
-const data =
-  [
-    { id: "001", nombre: "Jessica", correo: "jess@taxes.com", fecha: "12/12/2024", hora: "17:50", accion: "Borrar" },
-    { id: "002", nombre: "Jhon", correo: "jon@taxes.com", fecha: "17/12/2024", hora: "19:50", accion: "Agregar" },
-    { id: "003", nombre: "Diego", correo: "dieg@taxes.com", fecha: "22/12/2024", hora: "14:20", accion: "Editar" },
-    { id: "004", nombre: "Juan", correo: "juan@taxes.com", fecha: "02/12/2024", hora: "13:50", accion: "Borrar" },
-    { id: "005", nombre: "Luis", correo: "luis@taxes.com", fecha: "07/12/2024", hora: "12:50", accion: "Borrar" }
-  ]
+
 
 const HistorialAdmin = () => {
-  const [historial,setHistorial] = useState<HistorialItem[]>(data)
+  const [historial, setHistorial] = useState<HistorialItem[]>([])
 
   const httpObtenerHistorial = async () => {
-    const url = " https://script.google.com/macros/s/AKfycbwnViGs2imFRKitmPDKS1PZvZmkrIS3kBbMgnhv-vSRWBk0KGfLbIyeCdOrYzLsh-mR/exec?entity=proyectos"
-    const resp = await fetch(url)
-    const listaHistorial = await resp.json()
-    setHistorial(listaHistorial)
-    console.log(listaHistorial)
+    const url = "http://localhost:5000/access-logs"
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.msg === "") {
+      setHistorial(data.historial);
+      console.log("Historial obtenido:", data.historial);
+    } else {
+      console.error(`Error al obtener historial: ${data.msg}`);
+    }
   }
 
-  useEffect( ()=> {
+  useEffect(() => {
     httpObtenerHistorial()
-  })
+  },[])
 
   return (
     <div className="container-fluid bg-light">
