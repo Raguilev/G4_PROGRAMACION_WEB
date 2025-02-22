@@ -2,16 +2,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export interface Expense {
   id: number;
-  user_id: number;
   date: string;
   amount: number;
   description: string;
-  Category: Categoria;
   recurring: boolean;
+  Category: Categoria;
 }
 
 export interface Categoria {
-  id: number
   name: string
 }
 

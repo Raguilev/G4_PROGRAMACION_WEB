@@ -11,7 +11,7 @@ const HistorialAdmin = () => {
     const resp = await fetch(url);
     const data = await resp.json();
     if (data.msg === "") {
-      setHistorial(data.historial);
+      setHistorial(data.accessLog);
       console.log("Historial obtenido:", data.historial);
     } else {
       console.error(`Error al obtener historial: ${data.msg}`);
