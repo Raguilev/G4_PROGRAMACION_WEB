@@ -27,10 +27,10 @@ const Expenses = () => {
             const listaExpenses = data.expenses
             setExpenses(listaExpenses)
             console.log(listaExpenses)
+            console.log(listaExpenses[1].Category.name)
         }else {
             console.error(`Error al obtener proyectos: ${data.msg}`)
         }
-        
     }
 
     useEffect( ()=> {
@@ -65,7 +65,7 @@ const Expenses = () => {
                             setShowDeleteModal(true);
                         }}
                     />
-
+                 {/* 
                     {showEditModal && selectedExpense && (
                         <EditExpenseModal
                             expense={selectedExpense}
@@ -89,7 +89,7 @@ const Expenses = () => {
                             }}
                         />
                     )}
-
+                    */}
                     {showDeleteModal && (
                         <DeleteExpenseModal
                             closeModal={() => setShowDeleteModal(false)}

@@ -2,11 +2,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export interface Expense {
   id: number;
+  user_id: number;
   date: string;
-  category: string;
-  description: string;
-  recurring: boolean;
   amount: number;
+  description: string;
+  Category: Categoria;
+  recurring: boolean;
+}
+
+export interface Categoria {
+  id: number
+  name: string
 }
 
 interface ExpenseTableProps {
@@ -31,17 +37,23 @@ const ExpenseTable: React.FC<ExpenseTableProps> = (props: ExpenseTableProps) => 
         </thead>
         <tbody>
           {props.expenses.length > 0 ? (
-            props.expenses.map((expense : Expense) => (
+            props.expenses.map((expense: Expense) => (
               <tr key={expense.id} className="text-center">
                 <td>{expense.date}</td>
-                <td>{expense.category}</td>
+                <td>
+                  {
+                    expense.Category != null
+                      ? expense.Category.name
+                      : "-"
+                  }
+                </td>
                 <td className="text-start">{expense.description}</td>
                 <td>
                   <span className={`badge ${expense.recurring ? "bg-success" : "bg-secondary"}`}>
                     {expense.recurring ? "Sí" : "No"}
                   </span>
                 </td>
-                <td><strong>S/. {expense.amount.toFixed(2)}</strong></td>
+                <td><strong>S/. {expense.amount}</strong></td>
                 <td>
                   <button className="btn btn-primary btn-sm me-2" onClick={() => props.openEdit(expense)}>
                     ✏️
