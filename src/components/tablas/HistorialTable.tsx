@@ -6,6 +6,7 @@ export interface HistorialItem {
     hora: string;
     accion: string;
   }
+
   
   interface HistorialTableProps{
     data : HistorialItem[]

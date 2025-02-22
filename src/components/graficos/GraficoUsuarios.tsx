@@ -4,18 +4,35 @@ import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip } from "c
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 interface GraficoUsuariosProps {
-  monthlyData: number[];
+  monthlyData: Record<string, number>;
 }
 
 const GraficoUsuarios = (props : GraficoUsuariosProps) => {
-  const labels = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+  const monthNames: Record<string, string> = {
+    "1": "Ene",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Abr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Ago",
+    "9": "Sep",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dic"
+  }
+
+  const sortedKeys = Object.keys(props.monthlyData).sort((a, b) => Number(a) - Number(b));
+  const labels = sortedKeys.map(key => monthNames[key] || key);
+  const dataMes = sortedKeys.map(key => props.monthlyData[key]);
 
   const data = {
     labels,
     datasets: [
       {
         label: "Usuarios nuevos por mes",
-        data: props.monthlyData,
+        data: dataMes,
         backgroundColor: "#4285F4",
         borderRadius: 5,
       },
@@ -30,7 +47,7 @@ const GraficoUsuarios = (props : GraficoUsuariosProps) => {
       tooltip: { enabled: true },
     },
     scales: {
-      y: { beginAtZero: true, max: 1000, ticks: { stepSize: 200 } },
+      y: { beginAtZero: true, max: Math.max(...dataMes), ticks: { stepSize: 200 } },
       x: { grid: { display: false } },
     },
   };
