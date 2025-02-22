@@ -23,8 +23,8 @@ const DashboardAdminPage = () => {
     const resp = await fetch(url);
     const data = await resp.json();
     if (data.msg === "") {
-      setMonthlyData(data.summary);
-      console.log(data.summary);
+      setMonthlyData(data.nuevosUsuarios);
+      console.log(data.nuevosUsuarios);
     } else {
       console.error(`Error al obtener resumen: ${data.msg}`);
     }
@@ -58,7 +58,7 @@ const DashboardAdminPage = () => {
             <div className="card p-4 bg-white shadow-sm">
               <h4 className="mb-4">Usuarios nuevos por mes</h4>
               {Object.keys(monthlyData).length > 0 ? (
-                <GraficoUsuarios monthlyData={monthlyData} />
+                <GraficoUsuarios usuariosMes={monthlyData} />
               ) : (
                 <p>Cargando gráfico...</p>
               )}
