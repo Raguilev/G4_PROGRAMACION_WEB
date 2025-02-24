@@ -40,7 +40,7 @@ const Login = () => {
         usuarioId: data.userid,
         nombre: data.nombre,
         role: data.role,
-        
+        email: data.email,
       };
       
       sessionStorage.setItem("usuario", JSON.stringify(userData)); // ✅ Guardar como JSON

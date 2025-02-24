@@ -9,12 +9,14 @@ const AdminProfile = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("usuario");
-  
-    console.log("🔹 Verificando sessionStorage en AdminProfile:", storedUser); // 📌 Depuración
-  
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const nombre = sessionStorage.getItem("nombre") || "";
+    const email = sessionStorage.getItem("email") || "";
+    const password = sessionStorage.getItem("password") || "";
+
+    console.log("🔹 Verificando sessionStorage en AdminProfile:", nombre, email, password);
+
+    if (nombre) {
+      setUser({ name: nombre, email: email, password: password }); // ✅ Guarda correctamente el usuario
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
@@ -22,18 +24,18 @@ const AdminProfile = () => {
       }, 500); // 🔹 Espera 500ms antes de redirigir
     }
   }, [navigate]);
-  
 
   const updateUser = (updatedUser: { name: string; email: string; password: string }) => {
-    if (updatedUser.name && updatedUser.email) { // ✅ Verifica que no sean vacíos antes de guardar
+    if (updatedUser.name && updatedUser.email && updatedUser.password) { // ✅ Verifica que no sean vacíos antes de guardar
       setUser(updatedUser);
-      sessionStorage.setItem("usuario", JSON.stringify(updatedUser));
+      sessionStorage.setItem("nombre", updatedUser.name);
+      sessionStorage.setItem("email", updatedUser.email);
+      sessionStorage.setItem("password", updatedUser.password);
       console.log("🔹 Usuario actualizado:", updatedUser);
     } else {
       console.error("⚠️ Error: Datos de usuario inválidos.");
     }
   };
-  
 
   return (
     <div className="d-flex">

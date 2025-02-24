@@ -9,20 +9,20 @@ const UserSidebar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Estado para mostrar el modal
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("usuario");
-  
-    console.log("🔹 Verificando sessionStorage en UserSidebar:", storedUser); // 📌 Depuración
-  
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const nombre = sessionStorage.getItem("nombre") || "";
+    const email = sessionStorage.getItem("email") || "";
+
+    console.log("🔹 Verificando sessionStorage en UserSidebar:", nombre, email);
+
+    if (nombre) {
+      setUser({ name: nombre, email });
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
         navigate("/");
-      }, 500); // 🔹 Espera 500ms antes de redirigir
+      }, 500);
     }
   }, [navigate]);
-  
 
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: "/assets_usuario/grafico_usuario.png" },
@@ -30,12 +30,13 @@ const UserSidebar = () => {
     { path: "/budgets", label: "Presupuestos", icon: "/assets_usuario/money.png" },
     { path: "/profile", label: "Configuración", icon: "/assets_usuario/configuracion_usuario.png" }
   ];
+
   const handleLogout = () => {
     console.log("🔹 Cerrando sesión..."); // 📌 Depuración
-    sessionStorage.clear();
+    sessionStorage.clear(); // ✅ Borra todos los datos del usuario en sessionStorage
     navigate("/");
   };
-  
+
   return (
     <>
       <div className="d-flex flex-column bg-white vh-100 p-3 border-end shadow-sm">

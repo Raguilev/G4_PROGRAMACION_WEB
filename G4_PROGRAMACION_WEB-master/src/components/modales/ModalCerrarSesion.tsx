@@ -1,12 +1,18 @@
 interface LogoutModalProps {
-    showModal: boolean;
-    closeModal: () => void;
-    confirmLogout: () => void;
-  }
-  
-  const LogoutModal: React.FC<LogoutModalProps> = ({ showModal, closeModal, confirmLogout }) => {
-    return (
-      <>
+  showModal: boolean;
+  closeModal: () => void;
+  confirmLogout: () => void;
+}
+
+const LogoutModal: React.FC<LogoutModalProps> = ({ showModal, closeModal, confirmLogout }) => {
+  const handleLogout = () => {
+    console.log("🔹 Cerrando sesión..."); // 📌 Depuración
+    sessionStorage.clear(); // ✅ Borra TODO lo almacenado en sessionStorage
+    confirmLogout(); // ✅ Llama a la función para finalizar el logout
+  };
+
+  return (
+    <>
       {showModal && <div className="modal-backdrop fade show"></div>}
       <div className={`modal fade ${showModal ? "show d-block" : ""}`} tabIndex={-1}>
         <div className="modal-dialog modal-sm modal-dialog-centered">
@@ -19,14 +25,13 @@ interface LogoutModalProps {
             </div>
             <div className="modal-footer border-0 d-flex justify-content-between">
               <button className="btn btn-secondary px-4 py-2" onClick={closeModal}>No</button>
-              <button className="btn btn-primary px-4 py-2" onClick={confirmLogout}>Sí</button>
+              <button className="btn btn-primary px-4 py-2" onClick={handleLogout}>Sí</button>
             </div>
           </div>
         </div>
       </div>
-      </>
-    );
-  };
-  
-  export default LogoutModal;
-  
+    </>
+  );
+};
+
+export default LogoutModal;

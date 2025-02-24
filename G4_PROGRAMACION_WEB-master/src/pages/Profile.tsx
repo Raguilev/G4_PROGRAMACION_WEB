@@ -9,17 +9,32 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("usuario");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const nombre = sessionStorage.getItem("nombre") || "";
+    const email = sessionStorage.getItem("email") || "";
+    const password = sessionStorage.getItem("password") || "";
+
+    console.log("🔹 Verificando sessionStorage en Profile:", nombre, email);
+
+    if (nombre) {
+      setUser({ name: nombre, email, password });
     } else {
-      navigate("/");
+      setTimeout(() => {
+        console.log("🔹 No hay usuario. Redirigiendo a login...");
+        navigate("/");
+      }, 500);
     }
   }, [navigate]);
 
   const updateUser = (updatedUser: { name: string; email: string; password: string }) => {
-    setUser(updatedUser);
-    sessionStorage.setItem("usuario", JSON.stringify(updatedUser));
+    if (updatedUser.name && updatedUser.email) {
+      setUser(updatedUser);
+      sessionStorage.setItem("nombre", updatedUser.name);
+      sessionStorage.setItem("email", updatedUser.email);
+      sessionStorage.setItem("password", updatedUser.password);
+      console.log("🔹 Usuario actualizado:", updatedUser);
+    } else {
+      console.error("⚠️ Error: Datos de usuario inválidos.");
+    }
   };
 
   return (
@@ -40,12 +55,17 @@ const Profile = () => {
             <p><strong>Contraseña:</strong> {user.password}</p>
           </div>
         )}
-        {showModal && <EditProfileModal user={user!} showModal={showModal} closeModal={() => setShowModal(false)} updateUser={updateUser} />}
-
+        {showModal && (
+          <EditProfileModal 
+            user={user!} 
+            showModal={showModal} 
+            closeModal={() => setShowModal(false)} 
+            updateUser={updateUser} 
+          />
+        )}
       </div>
     </div>
   );
 };
 
 export default Profile;
-

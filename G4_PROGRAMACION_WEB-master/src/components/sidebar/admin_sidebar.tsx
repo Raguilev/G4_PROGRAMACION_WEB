@@ -9,14 +9,14 @@ const AdminSidebar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Estado para mostrar el modal
 
   useEffect(() => {
-    const nombre = sessionStorage.getItem("nombre");
-    const email = sessionStorage.getItem("email") || "";
+    const nombre = sessionStorage.getItem("nombre") || "";
+    const email = sessionStorage.getItem("email") || ""; 
     const role = sessionStorage.getItem("role") || "";
-  
+
     console.log("🔹 Verificando sessionStorage en AdminSidebar:", nombre, email, role);
-  
+
     if (nombre) {
-      setUser({ name: nombre, email, role });
+      setUser({ name: nombre, email, role }); // ✅ Almacena correctamente el usuario
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
@@ -24,8 +24,6 @@ const AdminSidebar = () => {
       }, 500);
     }
   }, [navigate]);
-  
-  
 
   const navItems = [
     { path: "/admin_dashboard", label: "Dashboard", icon: "/assets_admin/grafico_admin.png" },
@@ -33,10 +31,11 @@ const AdminSidebar = () => {
     { path: "/historial", label: "Historial", icon: "/assets_admin/historial.png" },
     { path: "/admin_profile", label: "Configuración", icon: "/assets_admin/configuracion_admin.png" }
   ];
+
   const handleLogout = () => {
     console.log("🔹 Cerrando sesión..."); // 📌 Depuración
-    sessionStorage.removeItem("usuario");
-    navigate("/");
+    sessionStorage.clear(); // ✅ Borra TODO lo almacenado en sessionStorage
+    navigate("/"); // ✅ Redirige al login
   };
   
   return (
