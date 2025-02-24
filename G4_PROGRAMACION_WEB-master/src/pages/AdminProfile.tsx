@@ -5,25 +5,29 @@ import EditProfileModal from "../components/modales/EditProfileModal";
 
 const AdminProfile = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<{ name: string; email: string; password: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string;role:string} | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const nombre = sessionStorage.getItem("nombre") || "";
-    const email = sessionStorage.getItem("email") || "";
-    const password = sessionStorage.getItem("password") || "";
-
-    console.log("🔹 Verificando sessionStorage en AdminProfile:", nombre, email, password);
-
-    if (nombre) {
-      setUser({ name: nombre, email: email, password: password }); // ✅ Guarda correctamente el usuario
+    const storedUser = sessionStorage.getItem("usuario");
+  
+    console.log("🔹 Verificando sessionStorage en UserSidebar:", storedUser);
+  
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser({
+        name: parsedUser.nombre,
+        email: parsedUser.email,
+        role: parsedUser.role
+      });
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
         navigate("/");
-      }, 500); // 🔹 Espera 500ms antes de redirigir
+      }, 500);
     }
   }, [navigate]);
+  
 
   const updateUser = (updatedUser: { name: string; email: string; password: string }) => {
     if (updatedUser.name && updatedUser.email && updatedUser.password) { // ✅ Verifica que no sean vacíos antes de guardar

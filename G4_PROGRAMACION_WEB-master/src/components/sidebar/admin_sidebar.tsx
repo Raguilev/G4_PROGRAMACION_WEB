@@ -9,14 +9,17 @@ const AdminSidebar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Estado para mostrar el modal
 
   useEffect(() => {
-    const nombre = sessionStorage.getItem("nombre") || "";
-    const email = sessionStorage.getItem("email") || ""; 
-    const role = sessionStorage.getItem("role") || "";
-
-    console.log("🔹 Verificando sessionStorage en AdminSidebar:", nombre, email, role);
-
-    if (nombre) {
-      setUser({ name: nombre, email, role }); // ✅ Almacena correctamente el usuario
+    const storedUser = sessionStorage.getItem("usuario");
+  
+    console.log("🔹 Verificando sessionStorage en UserSidebar:", storedUser);
+  
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser({
+        name: parsedUser.nombre,
+        email: parsedUser.email,
+        role: parsedUser.role
+      });
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
@@ -24,7 +27,7 @@ const AdminSidebar = () => {
       }, 500);
     }
   }, [navigate]);
-
+  
   const navItems = [
     { path: "/admin_dashboard", label: "Dashboard", icon: "/assets_admin/grafico_admin.png" },
     { path: "/usuarios", label: "Usuarios", icon: "/assets_admin/usuarios.png" },

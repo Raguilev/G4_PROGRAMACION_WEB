@@ -5,17 +5,21 @@ import LogoutModal from "../modales/ModalCerrarSesion";
 const UserSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string;role: string } | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Estado para mostrar el modal
 
   useEffect(() => {
-    const nombre = sessionStorage.getItem("nombre") || "";
-    const email = sessionStorage.getItem("email") || "";
-
-    console.log("🔹 Verificando sessionStorage en UserSidebar:", nombre, email);
-
-    if (nombre) {
-      setUser({ name: nombre, email });
+    const storedUser = sessionStorage.getItem("usuario");
+  
+    console.log("🔹 Verificando sessionStorage en UserSidebar:", storedUser);
+  
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser({
+        name: parsedUser.nombre,
+        email: parsedUser.email,
+        role: parsedUser.role
+      });
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
@@ -23,6 +27,7 @@ const UserSidebar = () => {
       }, 500);
     }
   }, [navigate]);
+  
 
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: "/assets_usuario/grafico_usuario.png" },
