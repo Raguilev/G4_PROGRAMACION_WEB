@@ -26,7 +26,7 @@ const Login = () => {
     
     const userData = { usuario, password };
   
-    const resp = await fetch("http://localhost:5000/users/", {
+    const resp = await fetch("http://localhost:5000/users/login", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "Content-Type": "application/json" },
@@ -41,6 +41,8 @@ const Login = () => {
         nombre: data.nombre,
         role: data.role,
         email: data.email,
+        token: data.token,
+
       };
       
       sessionStorage.setItem("usuario", JSON.stringify(userData)); // ✅ Guardar como JSON

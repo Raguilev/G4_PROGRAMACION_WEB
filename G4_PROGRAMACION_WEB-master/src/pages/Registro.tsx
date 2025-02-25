@@ -9,12 +9,14 @@ const Registro = () => {
     const navigate = useNavigate();
 
     const handleRegister = async () => {
-        const url = "http://localhost:5000/users/register"; // Asegúrate de usar el puerto correcto
+        console.log("🔹 Enviando datos de registro:", { name, email, password });
+
+        const url = "http://localhost:5000/users/register";
 
         const resp = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password_hash: password })
+            body: JSON.stringify({ name, email, password }) // ✅ Se cambió `password_hash` a `password`
         });
 
         const data = await resp.json();
