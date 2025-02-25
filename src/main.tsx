@@ -26,7 +26,7 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/G4_PROGRAMACION_WEB">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />

@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": " https://Raguilev.github.io/G4_PROGRAMACION_WEB/",
+  "predeploy":"npm run build",
+  "deply":"gh-pages -d dist",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
