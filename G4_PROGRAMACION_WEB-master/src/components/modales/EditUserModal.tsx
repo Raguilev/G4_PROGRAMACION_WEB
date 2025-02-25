@@ -1,3 +1,4 @@
+/*
 import React, { useState, useEffect } from "react";
 
 interface User {
@@ -63,3 +64,5 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updat
 };
 
 export default EditUserModal;
+
+*/

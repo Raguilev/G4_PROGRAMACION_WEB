@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/user_sidebar";
 import ExpenseTable, { Expense } from "../components/tablas/ExpenseTable";
-import EditExpenseModal from "../components/modales/EditExpenseModal";
+//import EditExpenseModal from "../components/modales/EditExpenseModal";
 import AddExpenseModal from "../components/modales/AddExpenseModal";
 import DeleteExpenseModal from "../components/modales/DeleteExpenseModal";
 import ModalFiltrarGastos from "../components/modales/ModalFiltrarGastos";
@@ -10,8 +10,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Expenses = () => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
-    const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
-    const [showEditModal, setShowEditModal] = useState(false);
+    const [/*selectedExpense*/, setSelectedExpense] = useState<Expense | null>(null);
+    const [/*showEditModal*/, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
@@ -19,11 +19,11 @@ const Expenses = () => {
 
     // 🔥 Obtener `user_id` desde sessionStorage
     const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
-
+    const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
     const httpObtenerExpenses = async () => {
         if (!userId) return; // 🔥 No cargar si no hay usuario
 
-        const url = `http://localhost:5000/expenses/${userId}`;
+        const url = URL_BACKEND+`/expenses/${userId}`;
         try {
             const resp = await fetch(url);
             const data = await resp.json();

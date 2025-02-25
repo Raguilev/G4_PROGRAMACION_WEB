@@ -6,14 +6,16 @@ const Registro = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [mensaje, setMensaje] = useState("");
+    
     const navigate = useNavigate();
-
+    
+    const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
+    
     const handleRegister = async () => {
         console.log("🔹 Enviando datos de registro:", { name, email, password });
 
-        const url = "http://localhost:5000/users/register";
-
-        const resp = await fetch(url, {
+        
+        const resp = await fetch(URL_BACKEND+"/users/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }) // ✅ Se cambió `password_hash` a `password`

@@ -5,7 +5,7 @@ interface DeleteExpenseModalProps {
   closeModal: () => void;
   refreshExpenses: () => void; // ✅ Recargar gastos después de eliminar
 }
-
+const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
 const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, closeModal, refreshExpenses }) => {
   const [error, setError] = useState<string>("");
 
@@ -13,7 +13,7 @@ const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, clos
     if (!expenseId) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/expenses/${expenseId}`, {
+      const response = await fetch(URL_BACKEND+`/expenses/${expenseId}`, {
         method: "DELETE",
       });
 

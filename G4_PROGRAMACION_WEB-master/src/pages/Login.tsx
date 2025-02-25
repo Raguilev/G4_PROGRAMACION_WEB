@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
 
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const [/*showModal*/, setShowModal] = useState<boolean>(false)
   const [error, setError] = useState("");
   const [usuario, setUsuario] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+
+  const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
 
   const handleUsuarioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsuario(e.currentTarget.value)
@@ -26,7 +28,7 @@ const Login = () => {
     
     const userData = { usuario, password };
   
-    const resp = await fetch("http://localhost:5000/users/login", {
+    const resp = await fetch(URL_BACKEND+"/users/login", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "Content-Type": "application/json" },

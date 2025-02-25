@@ -11,8 +11,8 @@ import Registro from "./pages/Registro";
 import CorreoConfirmacion from "./pages/CorreoConfirmacion";
 import ForgotPassword from "./pages/Forgot";
 import Expenses from "./pages/Expenses";
-import Profile from "./pages/Profile";
-import AdminProfile from "./pages/AdminProfile";
+//import Profile from "./pages/Profile";
+//import AdminProfile from "./pages/AdminProfile";
 import DashboardUsuario from "./pages/DashboardUsuarioPage";
 import DashboardAdmin from "./pages/DashboardAdminPage";
 import Historial from "./pages/HistorialAdmin";
@@ -34,8 +34,8 @@ createRoot(rootElement).render(
         <Route path="/forgot_password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<DashboardUsuario />} />
         <Route path="/admin_dashboard" element={<DashboardAdmin />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/admin_profile" element={<AdminProfile />} />
+        {/*<Route path="/profile" element={<Profile />} />*/}
+        {/*<Route path="/admin_profile" element={<AdminProfile />} />*/}
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/budgets" element={<Presupuestos />} />
         <Route path="/usuarios" element={<Usuarios />} />

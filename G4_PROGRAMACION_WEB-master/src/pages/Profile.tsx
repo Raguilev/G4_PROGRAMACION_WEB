@@ -1,3 +1,4 @@
+/*
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar/user_sidebar";
@@ -56,7 +57,7 @@ const Profile = () => {
             </div>
             <p><strong>Nombre:</strong> {user.name}</p>
             <p><strong>Correo electrónico:</strong> {user.email}</p>
-            <p><strong>Contraseña:</strong> {user.password}</p>
+            <p><strong>Contraseña:</strong> </p>
           </div>
         )}
         {showModal && (
@@ -73,3 +74,4 @@ const Profile = () => {
 };
 
 export default Profile;
+*/

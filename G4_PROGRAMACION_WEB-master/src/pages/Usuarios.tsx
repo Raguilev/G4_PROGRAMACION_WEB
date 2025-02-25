@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AdminSidebar from "../components/sidebar/admin_sidebar";
 import ListaUsuariosTable from "../components/tablas/ListaUsuariosTable";
 import AddUserModal from "../components/modales/AddUserModal";
-import EditUserModal from "../components/modales/EditUserModal";
+//import EditUserModal from "../components/modales/EditUserModal";
 import DeleteUserModal from "../components/modales/DeleteUserModal";
 import FilterUserModal from "../components/modales/FilterUserModal";
 
@@ -18,18 +18,18 @@ const Usuarios = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [/*showEditModal*/, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
+  const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/users/list");
+      const response = await fetch(URL_BACKEND+"/users/list");
       const data = await response.json();
       const formattedUsers = data.users.map((user: any) => ({
         id: Number(user.id),
@@ -74,7 +74,7 @@ const Usuarios = () => {
           fetchUsers();
         }} />
         
-        <EditUserModal 
+        {/*<EditUserModal 
           show={showEditModal} 
           onHide={() => setShowEditModal(false)} 
           user={selectedUser ? { ...selectedUser, password: selectedUser.password || "" } : null} 
@@ -83,7 +83,7 @@ const Usuarios = () => {
             setFilteredUsers(users.map(u => u.id === updatedUser.id ? { ...updatedUser, id: Number(updatedUser.id), password: updatedUser.password || "" } : u).sort((a, b) => a.id - b.id));
             fetchUsers();
           }} 
-        />
+        />*/}
         
         <DeleteUserModal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} confirmDelete={() => {
           if (selectedUser) {
