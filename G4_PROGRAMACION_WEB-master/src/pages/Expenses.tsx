@@ -78,15 +78,7 @@ const Expenses = () => {
                         />
                     )}
 
-                    {/*showEditModal && selectedExpense && (
-                        <EditExpenseModal
-                            expense={selectedExpense}
-                            closeModal={() => setShowEditModal(false)}
-                            updateExpense={(updatedExpense) => {
-                                setExpenses(expenses.map(exp => exp.id === updatedExpense.id ? updatedExpense : exp));
-                            }}
-                        />
-                    )*/}
+                    
 
                     {showDeleteModal && (
                         <DeleteExpenseModal

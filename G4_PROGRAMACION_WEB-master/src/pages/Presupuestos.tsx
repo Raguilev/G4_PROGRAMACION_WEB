@@ -11,7 +11,7 @@ interface Budget {
 }
 
 const initialBudgets: Budget[] = [
-  { category: "Ocio", amount: 129.99 },
+  { category: "Ocio", amount: 139.99 },
   { category: "Servicios", amount: 1229.99 },
   { category: "Alimentación", amount: 779.99 },
 ];
