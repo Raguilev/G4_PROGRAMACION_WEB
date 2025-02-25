@@ -22,7 +22,7 @@ const Login = () => {
     setPassword(e.currentTarget.value)
   }
   
-
+  
   const loginHandler = async () => {
     console.log("🔹 Intentando login con:", usuario, password);
     
@@ -68,7 +68,26 @@ const Login = () => {
     }
   };
   
+  const verificarUsuario = async () => {
+    if (!usuario.trim()) {
+        setError("Ingrese un nombre de usuario válido.");
+        return;
+    }
 
+    const resp = await fetch(URL_BACKEND+`/users/verify-user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario }),
+    });
+
+    const data = await resp.json();
+
+    if (data.exists) {
+        navigate(`/forgot_password?user=${usuario}`);
+    } else {
+        setError("Usuario no encontrado.");
+    }
+};
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -89,9 +108,13 @@ const Login = () => {
             placeholder="Contraseña"
             onChange={handlePasswordChange} />
         </div>
-        <a href="/forgot_password" className="d-block text-center text-primary mb-3">
-          ¿Olvidaste tu contraseña?
-        </a>
+        <a
+                    className="d-block text-center text-primary mb-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={verificarUsuario}
+                >
+                    ¿Olvidaste tu contraseña?
+                </a>
         <button className="btn btn-primary w-100 mb-2" onClick={  loginHandler }>
           Ingresar
         </button>
