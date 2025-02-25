@@ -1,52 +1,62 @@
 import { useState } from "react";
 
-interface Expense {
-  id: number;
-  user_id: number;
-  date: string;
-  category_id: number;
-  description: string;
-  recurring: boolean; // 🔥 Se asegura de que sea booleano
-  amount: number;
-}
-
 interface AddExpenseModalProps {
   closeModal: () => void;
-  addExpense: (newExpense: Expense) => void;
+  refreshExpenses: () => void; // 🔥 Se llama para recargar los gastos después de agregar uno nuevo
 }
 
-const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, addExpense }) => {
+const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshExpenses }) => {
   const [date, setDate] = useState("");
-  const [categoryId, setCategoryId] = useState(0);
+  const [categoryId, setCategoryId] = useState<number>(0);
   const [description, setDescription] = useState("");
-  const [recurring, setRecurring] = useState(false); // 🔥 Valor inicial en `false`
-  const [amount, setAmount] = useState(0);
+  const [recurring, setRecurring] = useState(false);
+  const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState("");
 
-  // 🔥 Obtener `user_id` desde localStorage o contexto
-  const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").id || null;
-
+  // ✅ Corregido: Obtiene `user_id` de `sessionStorage`
+  const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
 
   const handleSave = async () => {
-    if (!date || amount <= 0 || description.trim() === "" || categoryId === 0) {
-      setError("Todos los campos son obligatorios.");
+    if (!userId) {
+      setError("⚠️ Error: No se encontró el usuario.");
       return;
     }
 
-    
+    if (!date || amount <= 0 || description.trim() === "" || categoryId === 0) {
+      setError("⚠️ Todos los campos son obligatorios.");
+      return;
+    }
 
-    const newExpense: Expense = {
-      id: Date.now(),
+    const newExpense = {
       user_id: userId,
       date,
       category_id: categoryId,
       description,
-      recurring: !!recurring, // 🔥 Asegura que siempre sea `true` o `false`
+      recurring,
       amount,
     };
 
-    addExpense(newExpense);
-    closeModal();
+    try {
+      const response = await fetch(`http://localhost:5000/expenses/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newExpense),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.msg || "Error al agregar gasto");
+      }
+
+      console.log("✅ Gasto agregado con éxito:", data);
+
+      refreshExpenses(); // 🔥 Actualiza la lista de gastos después de agregar uno nuevo
+      closeModal();
+    } catch (error) {
+      setError("❌ Error al agregar el gasto.");
+      console.error("Error al agregar gasto:", error);
+    }
   };
 
   return (
@@ -78,7 +88,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, addExpens
                   className="form-check-input"
                   type="checkbox"
                   checked={recurring}
-                  onChange={() => setRecurring((prev) => !prev)} // 🔥 Cambia entre `true` y `false`
+                  onChange={() => setRecurring((prev) => !prev)}
                 />
                 <label className="form-check-label">Recurrente</label>
               </div>

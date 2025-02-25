@@ -75,12 +75,14 @@ const Login = () => {
           <input className="form-control"
             type="text"
             value={usuario}
+            placeholder="Usuario"
             onChange={handleUsuarioChange} />
         </div>
         <div className="mb-3">
           <input className="form-control"
             type="password"
             value={password}
+            placeholder="Contraseña"
             onChange={handlePasswordChange} />
         </div>
         <a href="/forgot_password" className="d-block text-center text-primary mb-3">

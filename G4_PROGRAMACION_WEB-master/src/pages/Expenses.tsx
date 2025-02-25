@@ -8,8 +8,6 @@ import ModalFiltrarGastos from "../components/modales/ModalFiltrarGastos";
 import ExportarDatos from "../components/modales/ExportarDatos";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
-
 const Expenses = () => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
@@ -19,48 +17,31 @@ const Expenses = () => {
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
     const [showFilterModal, setShowFilterModal] = useState(false);
 
+    // 🔥 Obtener `user_id` desde sessionStorage
+    const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
+
     const httpObtenerExpenses = async () => {
-        const url = "http://localhost:5000/expenses"
-        const resp = await fetch(url)
-        const data = await resp.json()
-        if (data.msg == "") {
-            const listaExpenses = data.expenses
-            setExpenses(listaExpenses)
-            console.log(listaExpenses)
-            console.log(listaExpenses[1].Category.name)
-        } else {
-            console.error(`Error al obtener proyectos: ${data.msg}`)
-        }
-    }
-    const handleAddExpense = async (newExpense: Expense) => {
+        if (!userId) return; // 🔥 No cargar si no hay usuario
+
+        const url = `http://localhost:5000/expenses/${userId}`;
         try {
-            const response = await fetch("http://localhost:5000/expenses", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newExpense),
-            });
-    
-            const data = await response.json();
-    
-            if (!response.ok) {
-                throw new Error(data.msg || "Error al agregar gasto");
+            const resp = await fetch(url);
+            const data = await resp.json();
+
+            if (data.msg === "") {
+                setExpenses(data.expenses);
+                console.log("📌 Gastos cargados:", data.expenses);
+            } else {
+                console.error("⚠️ Error al obtener gastos:", data.msg);
             }
-    
-            // 🔥 Aseguramos que `Category` es un objeto con `name`
-            const expenseWithCategory = {
-                ...data.expense,
-                Category: { name: newExpense.category.name }, // Convertimos el string en objeto
-            };
-    
-            setExpenses([...expenses, expenseWithCategory]);
         } catch (error) {
-            console.error("Error al agregar gasto:", error);
+            console.error("❌ Error al conectar con el servidor:", error);
         }
     };
-    
+
     useEffect(() => {
-        httpObtenerExpenses()
-    }, [])
+        httpObtenerExpenses();
+    }, []);
 
     return (
         <div className="container-fluid bg-light">
@@ -78,7 +59,6 @@ const Expenses = () => {
                         <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>➕ Agregar Gasto</button>
                     </div>
 
-
                     <ExpenseTable
                         expenses={expenses}
                         openEdit={(expense) => {
@@ -90,47 +70,29 @@ const Expenses = () => {
                             setShowDeleteModal(true);
                         }}
                     />
-                    {/* 
-                    {showEditModal && selectedExpense && (
+
+                    {showAddModal && (
+                        <AddExpenseModal
+                            closeModal={() => setShowAddModal(false)}
+                            refreshExpenses={httpObtenerExpenses} // 🔥 Se recarga la lista después de agregar
+                        />
+                    )}
+
+                    {/*showEditModal && selectedExpense && (
                         <EditExpenseModal
                             expense={selectedExpense}
                             closeModal={() => setShowEditModal(false)}
                             updateExpense={(updatedExpense) => {
-                                const updatedExpenses = expenses.map((expense) =>
-                                    expense.id === updatedExpense.id ? updatedExpense : expense
-                                );
-                                setExpenses(updatedExpenses);
-                                localStorage.setItem("gastos", JSON.stringify(updatedExpenses));
+                                setExpenses(expenses.map(exp => exp.id === updatedExpense.id ? updatedExpense : exp));
                             }}
                         />
-                    )}
-
-                    {showAddModal && (
-                        <AddExpenseModal
-                            closeModal={() => setShowAddModal(false)}
-                            addExpense={(newExpense) => {
-                                setExpenses([...expenses, newExpense]);
-                                localStorage.setItem("gastos", JSON.stringify([...expenses, newExpense]));
-                            }}
-                        />
-                    )}
-                    */}
-                    {showAddModal && (
-                        <AddExpenseModal
-                            closeModal={() => setShowAddModal(false)}
-                            addExpense={handleAddExpense}
-                        />
-                    )}
+                    )*/}
 
                     {showDeleteModal && (
                         <DeleteExpenseModal
+                            expenseId={expenseToDelete} // ✅ Pasamos el ID del gasto
                             closeModal={() => setShowDeleteModal(false)}
-                            deleteExpense={() => {
-                                if (expenseToDelete !== null) {
-                                    setExpenses(expenses.filter((expense) => expense.id !== expenseToDelete));
-                                    localStorage.setItem("gastos", JSON.stringify(expenses.filter((expense) => expense.id !== expenseToDelete)));
-                                }
-                            }}
+                            refreshExpenses={httpObtenerExpenses} // ✅ Recarga la lista después de eliminar
                         />
                     )}
 
