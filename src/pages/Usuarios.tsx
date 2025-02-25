@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminSidebar from "../components/sidebar/admin_sidebar";
 import ListaUsuariosTable from "../components/tablas/ListaUsuariosTable";
 import AddUserModal from "../components/modales/AddUserModal";
@@ -7,27 +7,41 @@ import DeleteUserModal from "../components/modales/DeleteUserModal";
 import FilterUserModal from "../components/modales/FilterUserModal";
 
 interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   role: "Admin" | "User";
 }
 
 const Usuarios = () => {
-  const [users, setUsers] = useState<User[]>([
-    { id: "001", name: "Jessica", email: "jess@taxes.com", password: "12345", role: "Admin" },
-    { id: "002", name: "Jhon", email: "jon@taxes.com", password: "6789", role: "User" },
-    { id: "003", name: "Diego", email: "dieg@taxes.com", password: "1011", role: "User" },
-    { id: "004", name: "Juan", email: "juan@taxes.com", password: "1213", role: "User" },
-    { id: "005", name: "Luis", email: "luis@taxes.com", password: "1415", role: "User" },
-  ]);
-
+  const [users, setUsers] = useState<User[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/users/list");
+      const data = await response.json();
+      const formattedUsers = data.users.map((user: any) => ({
+        id: Number(user.id),
+        name: user.name,
+        email: user.email,
+        password: user.password_hash || "", // Asegurar que password no sea undefined
+        role: user.role_id === 1 ? "Admin" : "User",
+      }));
+      setUsers(formattedUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   return (
     <div className="d-flex">
@@ -41,21 +55,42 @@ const Usuarios = () => {
 
         <ListaUsuariosTable 
           users={users} 
-          onEdit={(user) => { setSelectedUser(user); setShowEditModal(true); }} 
-          onDelete={(user) => { setSelectedUser(user); setShowDeleteModal(true); }}
+          onEdit={(user) => { 
+            setSelectedUser({ ...user, password: user.password || "" });
+            setShowEditModal(true); 
+          }} 
+          onDelete={(user) => { 
+            setSelectedUser(user);
+            setShowDeleteModal(true); 
+          }}
         />
 
-        <AddUserModal show={showAddModal} onHide={() => setShowAddModal(false)} addUser={(newUser) => setUsers([...users, newUser])} />
-        <EditUserModal show={showEditModal} onHide={() => setShowEditModal(false)} user={selectedUser} updateUser={(updatedUser) => {
-          setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
+        <AddUserModal show={showAddModal} onHide={() => setShowAddModal(false)} addUser={(newUser) => {
+          const newUserFormatted = { ...newUser, id: Number(newUser.id), password: newUser.password || "" };
+          setUsers([...users, newUserFormatted]);
+          fetchUsers();
         }} />
+        
+        <EditUserModal 
+          show={showEditModal} 
+          onHide={() => setShowEditModal(false)} 
+          user={selectedUser ? { ...selectedUser, password: selectedUser.password || "" } : null} 
+          updateUser={(updatedUser) => {
+            setUsers(users.map(u => u.id === updatedUser.id ? { ...updatedUser, id: Number(updatedUser.id), password: updatedUser.password || "" } : u));
+            fetchUsers();
+          }} 
+        />
+        
         <DeleteUserModal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} confirmDelete={() => {
           if (selectedUser) {
             setUsers(users.filter(u => u.id !== selectedUser.id));
+            fetchUsers();
           }
         }} />
+        
         <FilterUserModal show={showFilterModal} onHide={() => setShowFilterModal(false)} filterUsers={(role) => {
           setUsers(users.filter(u => u.role === role));
+          fetchUsers();
         }} />
       </div>
     </div>
