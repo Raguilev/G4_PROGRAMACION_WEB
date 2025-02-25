@@ -20,6 +20,12 @@ const UserSidebar = () => {
         email: parsedUser.email,
         role: parsedUser.role
       });
+      if (!parsedUser || !parsedUser.nombre || !parsedUser.email || parsedUser.role === null || parsedUser.role === undefined) {
+        console.log("🔹 Usuario con datos inválidos. Redirigiendo a login...");
+        navigate("/");
+        return;
+    }
+
     } else {
       setTimeout(() => {
         console.log("🔹 No hay usuario. Redirigiendo a login...");
