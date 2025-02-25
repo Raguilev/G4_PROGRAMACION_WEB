@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": " https://Raguilev.github.io/G4_PROGRAMACION_WEB/",
+  "homepage": " https://raguilev.github.io/G4_PROGRAMACION_WEB/",
   
   "scripts": {
     "dev": "vite",
