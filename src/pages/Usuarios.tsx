@@ -16,6 +16,7 @@ interface User {
 
 const Usuarios = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -34,10 +35,11 @@ const Usuarios = () => {
         id: Number(user.id),
         name: user.name,
         email: user.email,
-        password: user.password_hash || "", // Asegurar que password no sea undefined
+        password: user.password_hash || "",
         role: user.role_id === 1 ? "Admin" : "User",
-      }));
+      })).sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
       setUsers(formattedUsers);
+      setFilteredUsers(formattedUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -54,7 +56,7 @@ const Usuarios = () => {
         </div>
 
         <ListaUsuariosTable 
-          users={users} 
+          users={filteredUsers} 
           onEdit={(user) => { 
             setSelectedUser({ ...user, password: user.password || "" });
             setShowEditModal(true); 
@@ -67,7 +69,8 @@ const Usuarios = () => {
 
         <AddUserModal show={showAddModal} onHide={() => setShowAddModal(false)} addUser={(newUser) => {
           const newUserFormatted = { ...newUser, id: Number(newUser.id), password: newUser.password || "" };
-          setUsers([...users, newUserFormatted]);
+          setUsers([...users, newUserFormatted].sort((a, b) => a.id - b.id));
+          setFilteredUsers([...users, newUserFormatted].sort((a, b) => a.id - b.id));
           fetchUsers();
         }} />
         
@@ -76,21 +79,22 @@ const Usuarios = () => {
           onHide={() => setShowEditModal(false)} 
           user={selectedUser ? { ...selectedUser, password: selectedUser.password || "" } : null} 
           updateUser={(updatedUser) => {
-            setUsers(users.map(u => u.id === updatedUser.id ? { ...updatedUser, id: Number(updatedUser.id), password: updatedUser.password || "" } : u));
+            setUsers(users.map(u => u.id === updatedUser.id ? { ...updatedUser, id: Number(updatedUser.id), password: updatedUser.password || "" } : u).sort((a, b) => a.id - b.id));
+            setFilteredUsers(users.map(u => u.id === updatedUser.id ? { ...updatedUser, id: Number(updatedUser.id), password: updatedUser.password || "" } : u).sort((a, b) => a.id - b.id));
             fetchUsers();
           }} 
         />
         
         <DeleteUserModal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} confirmDelete={() => {
           if (selectedUser) {
-            setUsers(users.filter(u => u.id !== selectedUser.id));
+            setUsers(users.filter(u => u.id !== selectedUser.id).sort((a, b) => a.id - b.id));
+            setFilteredUsers(filteredUsers.filter(u => u.id !== selectedUser.id).sort((a, b) => a.id - b.id));
             fetchUsers();
           }
         }} />
         
         <FilterUserModal show={showFilterModal} onHide={() => setShowFilterModal(false)} filterUsers={(role) => {
-          setUsers(users.filter(u => u.role === role));
-          fetchUsers();
+          setFilteredUsers(users.filter(u => u.role === role).sort((a, b) => a.id - b.id));
         }} />
       </div>
     </div>
@@ -98,3 +102,4 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
+
