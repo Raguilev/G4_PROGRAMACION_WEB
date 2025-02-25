@@ -20,7 +20,7 @@ const Expenses = () => {
     const [showFilterModal, setShowFilterModal] = useState(false);
 
     const httpObtenerExpenses = async () => {
-        const url = "http://localhost:5000/expenses"
+        const url = "http://localhost:5000/user/expenses"
         const resp = await fetch(url)
         const data = await resp.json()
         if (data.msg == "") {
