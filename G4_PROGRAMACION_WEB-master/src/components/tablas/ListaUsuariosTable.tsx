@@ -1,10 +1,10 @@
 import React from "react";
 
 interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   role: "Admin" | "User";
 }
 
@@ -32,10 +32,11 @@ const ListaUsuariosTable: React.FC<ListaUsuariosTableProps> = ({ users, onEdit, 
           <td>{user.id}</td>
           <td>{user.name}</td>
           <td>{user.email}</td>
-          <td>{user.password}</td>
+          <td>{user.password ? "********" : "No asignado"}</td>{/* Agregado */}
           <td>{user.role}</td>
           <td>
-            <button className="btn btn-warning btn-sm me-2" onClick={() => onEdit(user)}>✏️</button>
+            <button className="btn btn-warning btn-sm me-2" onClick={() => onEdit({ ...user, password: user.password || "" })} // Asegurar password
+            >✏️</button>
             <button className="btn btn-danger btn-sm" onClick={() => onDelete(user)}>🗑️</button>
           </td>
         </tr>

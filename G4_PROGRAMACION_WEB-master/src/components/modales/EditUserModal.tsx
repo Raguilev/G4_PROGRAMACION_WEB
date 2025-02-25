@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   password: string;
@@ -16,11 +16,15 @@ interface EditUserModalProps {
 }
 
 const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updateUser }) => {
-  const [editedUser, setEditedUser] = useState<User | null>(user);
+  const [editedUser, setEditedUser] = useState<User | null>(
+    user ? { ...user, password: user.password || "" } : null
+  );
+  
 
   useEffect(() => {
-    setEditedUser(user);
+    setEditedUser(user ? { ...user, password: user.password || "" } : null);
   }, [user]);
+  
 
   const handleSave = () => {
     if (editedUser) {
