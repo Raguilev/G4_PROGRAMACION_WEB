@@ -9,7 +9,7 @@ const Registro = () => {
     
     const navigate = useNavigate();
     
-    const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
+    const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
     
     const handleRegister = async () => {
         console.log("🔹 Enviando datos de registro:", { name, email, password });

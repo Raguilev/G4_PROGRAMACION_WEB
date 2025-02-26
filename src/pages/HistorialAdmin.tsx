@@ -5,7 +5,7 @@ import HistorialTable, { HistorialItem } from "../components/tablas/HistorialTab
 
 const HistorialAdmin = () => {
   const [historial, setHistorial] = useState<HistorialItem[]>([])
-  const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
   const httpObtenerHistorial = async () => {
     const url = URL_BACKEND+"/access-logs"
     const resp = await fetch(url);

@@ -12,7 +12,7 @@ const Login = () => {
   const [usuario, setUsuario] = useState<string>("")
   const [password, setPassword] = useState<string>("")
 
-  const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
 
   const handleUsuarioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsuario(e.currentTarget.value)

@@ -12,7 +12,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
   const [recurring, setRecurring] = useState(false);
   const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState("");
-  const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
   // ✅ Corregido: Obtiene `user_id` de `sessionStorage`
   const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
 

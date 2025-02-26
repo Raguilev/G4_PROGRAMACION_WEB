@@ -6,7 +6,7 @@ const DashboardAdminPage = () => {
 
   const [totalUsers, setTotalUsers] = useState<number>(0)
   const [monthlyData, setMonthlyData] = useState<Record<string, number>>({});
-  const URL_BACKEND = import.meta.env.URL_BACKEND || "http://localhost:5000"
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
   const httpObtenerTotalUsuarios = async () => {
     const url = URL_BACKEND+"/users/totalUsers";
     const resp = await fetch(url);
