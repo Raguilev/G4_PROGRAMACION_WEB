@@ -16,14 +16,14 @@ const Registro = () => {
         const resp = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password }) // ✅ Se cambió `password_hash` a `password`
+            body: JSON.stringify({ name, email, password })
         });
 
         const data = await resp.json();
         setMensaje(data.msg);
 
-        if (data.msg === "Registro exitoso. Verifique su correo.") {
-            setTimeout(() => navigate("/"), 2000);
+        if (data.msg === "Registro exitoso") {
+            setTimeout(() => navigate("/confirmacion"), 2000);
         }
     };
 
