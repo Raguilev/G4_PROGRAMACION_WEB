@@ -1,21 +1,46 @@
-import { Bar } from 'react-chartjs-2';
-import GraficodeBarras from './GraficodeBarras';
+import { Bar } from "react-chartjs-2";
+import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip } from "chart.js";
 
-const GraficoGastoCategoria = () => {
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
-    const labels = ['Servicios', 'Ocio', 'Alimentación'];
+interface GraficoGastoCategoriaProps {
+    gastosCategoria: Record<string, number>;
+}
+
+const GraficoGastoCategoria = ({ gastosCategoria }: GraficoGastoCategoriaProps) => {
+    const labels = Object.keys(gastosCategoria);
+    const valores = Object.values(gastosCategoria);
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Gastos por categoría',
-                data: [4000, 2000, 3000],
-                backgroundColor: ['#007bff', '#6c757d', '#ffc107'],
+                label: "Gastos por categoría",
+                data: valores,
+                backgroundColor: ["#007bff", "#6c757d", "#ffc107"],
+                borderRadius: 5,
             },
         ],
     };
 
-    return <div className="h-100"><Bar options={GraficodeBarras()} data={data} /></div>;
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+        },
+        scales: {
+            y: { beginAtZero: true, max: Math.max(...valores), ticks: { stepSize: 500 } },
+            x: { grid: { display: false } },
+        },
+    };
+
+    return (
+        <div style={{ height: "250px" }}>
+            <Bar data={data} options={options} />
+        </div>
+    );
 };
+
 export default GraficoGastoCategoria;

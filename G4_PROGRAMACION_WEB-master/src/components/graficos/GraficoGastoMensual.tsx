@@ -1,20 +1,46 @@
-import { Bar } from 'react-chartjs-2';
-import GraficodeBarras from '../graficos/GraficodeBarras';
+import { Bar } from "react-chartjs-2";
+import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip } from "chart.js";
 
-const GraficoGastoMensual = () => {
-    const labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
+
+interface GraficoGastoMensualProps {
+    gastosMes: Record<string, number>;
+}
+
+const GraficoGastoMensual = ({ gastosMes }: GraficoGastoMensualProps) => {
+    const labels = Object.keys(gastosMes);
+    const valores = Object.values(gastosMes);
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Gastos mensuales',
-                data: [3000, 1500, 2000, 2500, 2800, 1800, 1000, 2200, 2700, 2900, 3200, 1500],
-                backgroundColor: '#007bff',
+                label: "Gastos mensuales",
+                data: valores,
+                backgroundColor: "#007bff",
+                borderRadius: 5,
             },
         ],
     };
 
-    return <div className="h-100"><Bar options={GraficodeBarras()} data={data}/></div>
-}
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+        },
+        scales: {
+            y: { beginAtZero: true, max: Math.max(...valores), ticks: { stepSize: 50 } },
+            x: { grid: { display: false } },
+        },
+    };
+
+    return (
+        <div style={{ height: "250px" }}>
+            <Bar data={data} options={options} />
+        </div>
+    );
+};
+
 export default GraficoGastoMensual;
