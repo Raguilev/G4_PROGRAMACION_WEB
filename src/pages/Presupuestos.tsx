@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar/user_sidebar";
 import PresupuestosTable from "../components/tablas/PresupuestosTable";
 import AddBudgetModal from "../components/modales/AddBudgetModal";
@@ -6,41 +6,82 @@ import EditBudgetModal from "../components/modales/EditBudgetModal";
 import DeleteBudgetModal from "../components/modales/DeleteBudgetModal";
 
 interface Budget {
+  id: number;
+  category_id: number;
   category: string;
-  amount: number;
+  monthly_budget: number;
 }
-
-const initialBudgets: Budget[] = [
-  { category: "Ocio", amount: 139.99 },
-  { category: "Servicios", amount: 1229.99 },
-  { category: "Alimentación", amount: 779.99 },
-];
-
+//Todo bien
+const API_URL = "http://localhost:5000/budgets";
+//Bien
 const Presupuestos = () => {
-  const [budgets, setBudgets] = useState<Budget[]>(initialBudgets);
+  const [budgets, setBudgets] = useState<Budget[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
+//Bien
+  const userId = 1; // ⚠️ Asegurar que `userId` sea dinámico si usas autenticación
 
-  const handleAddBudget = (category: string, amount: number) => {
-    const newBudget = { category, amount };
-    setBudgets([...budgets, newBudget]);
-  };
+  useEffect(() => {
+    fetchBudgets();
+  }, []);
+//Bien
+const fetchBudgets = async () => {
+  try {
+    const response = await fetch(`${API_URL}/${userId}`);
+    const data = await response.json();
 
-  const handleUpdateBudget = (category: string, amount: number) => {
     setBudgets(
-      budgets.map((b) =>
-        b.category === selectedBudget?.category ? { category, amount } : b
-      )
+      data.budgets.map((b: any) => ({
+        id: b.id,
+        category_id: b.category_id ?? 0, // 🔹 Asegurar que `category_id` existe
+        category: b.Category?.name || "Desconocido", // 🔹 Evitar errores si `Category` es null
+        monthly_budget: b.monthly_budget,
+      }))
     );
-    setShowEditModal(false);
+  } catch (error) {
+    console.error("❌ Error cargando presupuestos:", error);
+  }
+};
+  // ✅ Agregar presupuesto
+  const handleAddBudget = async (category_id: number, monthly_budget: number) => {
+    try {
+      await fetch(`${API_URL}/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category_id, monthly_budget }),
+      });
+      setShowAddModal(false);
+      fetchBudgets();
+    } catch (error) {
+      console.error("❌ Error agregando presupuesto:", error);
+    }
   };
 
-  const handleDeleteBudget = () => {
-    if (selectedBudget) {
-      setBudgets(budgets.filter((b) => b.category !== selectedBudget.category));
+  // ✅ Actualizar presupuesto
+  const handleUpdateBudget = async (id: number, category_id: number, monthly_budget: number) => {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category_id, monthly_budget }),
+      });
+      setShowEditModal(false);
+      fetchBudgets();
+    } catch (error) {
+      console.error("❌ Error actualizando presupuesto:", error);
+    }
+  };
+
+  // ✅ Eliminar presupuesto
+  const handleDeleteBudget = async (id: number) => {
+    try {
+      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
       setShowDeleteModal(false);
+      fetchBudgets();
+    } catch (error) {
+      console.error("❌ Error eliminando presupuesto:", error);
     }
   };
 
@@ -62,7 +103,10 @@ const Presupuestos = () => {
           <PresupuestosTable
             budgets={budgets}
             openEdit={(budget) => {
-              setSelectedBudget(budget);
+              setSelectedBudget({
+                ...budget,
+                category_id: budget.category_id ?? 0, // 🔹 Asegurar `category_id`
+              });
               setShowEditModal(true);
             }}
             openDelete={(budget) => {
@@ -73,19 +117,27 @@ const Presupuestos = () => {
 
           {/* Modales */}
           {showAddModal && (
-            <AddBudgetModal closeModal={() => setShowAddModal(false)} addBudget={handleAddBudget} />
+            <AddBudgetModal
+              closeModal={() => setShowAddModal(false)}
+              onBudgetAdded={fetchBudgets}
+              userId={userId}
+            />
           )}
 
           {showEditModal && selectedBudget && (
             <EditBudgetModal
               closeModal={() => setShowEditModal(false)}
               budget={selectedBudget}
-              updateBudget={handleUpdateBudget}
+              onBudgetUpdated={fetchBudgets}
             />
           )}
 
           {showDeleteModal && selectedBudget && (
-            <DeleteBudgetModal closeModal={() => setShowDeleteModal(false)} deleteBudget={handleDeleteBudget} />
+            <DeleteBudgetModal
+              closeModal={() => setShowDeleteModal(false)}
+              budgetId={selectedBudget.id}
+              onBudgetDeleted={fetchBudgets}
+            />
           )}
         </div>
       </div>

@@ -1,11 +1,28 @@
 interface DeleteBudgetModalProps {
-    closeModal: () => void;
-    deleteBudget: () => void;
-  }
+  closeModal: () => void;
+  budgetId: number; // 🔹 Se añade el ID del presupuesto a eliminar
+  onBudgetDeleted: () => void; // 🔹 Para refrescar la lista después de eliminar
+}
+
+const API_BASE_URL = "http://localhost:5000/budgets"; // 🔹 Asegurar que usa el puerto correcto
+
+const DeleteBudgetModal: React.FC<DeleteBudgetModalProps> = ({ closeModal, budgetId, onBudgetDeleted }) => {
   
-  const DeleteBudgetModal: React.FC<DeleteBudgetModalProps> = ({ closeModal, deleteBudget }) => {
-    return (
-      <>
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${budgetId}`, { method: "DELETE" });
+
+      if (!response.ok) throw new Error("Error al eliminar presupuesto");
+
+      onBudgetDeleted(); // 🔹 Recargar la lista en `Presupuestos.tsx`
+      closeModal();
+    } catch (error) {
+      console.error("❌ Error eliminando presupuesto:", error);
+    }
+  };
+
+  return (
+    <>
       <div className="modal-backdrop fade show"></div>
       <div className="modal show d-block">
         <div className="modal-dialog modal-sm modal-dialog-centered">
@@ -18,14 +35,13 @@ interface DeleteBudgetModalProps {
             </div>
             <div className="modal-footer border-0 d-flex justify-content-between">
               <button className="btn btn-secondary px-4 py-2" onClick={closeModal}>No</button>
-              <button className="btn btn-primary px-4 py-2" onClick={deleteBudget}>Sí</button>
+              <button className="btn btn-primary px-4 py-2" onClick={handleDelete}>Sí</button> {/* 🔹 Ahora llama a `handleDelete()` */}
             </div>
           </div>
         </div>
       </div>
-      </>
-    );
-  };
-  
-  export default DeleteBudgetModal;
-  
+    </>
+  );
+};
+
+export default DeleteBudgetModal;

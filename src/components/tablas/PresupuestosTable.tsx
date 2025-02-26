@@ -1,8 +1,10 @@
 import React from "react";
 
 interface Budget {
-  category: string;
-  amount: number;
+  id: number;
+  category_id: number; // 🔹 Se mantiene internamente para la API
+  category: string; // 🔹 Se usa `category` como el nombre de la categoría en la UI
+  monthly_budget: number;
 }
 
 interface PresupuestosTableProps {
@@ -24,10 +26,10 @@ const PresupuestosTable: React.FC<PresupuestosTableProps> = ({ budgets, openEdit
         </thead>
         <tbody>
           {budgets.length > 0 ? (
-            budgets.map((budget, index) => (
-              <tr key={index}>
-                <td>{budget.category}</td>
-                <td>S/. {budget.amount.toFixed(2)}</td>
+            budgets.map((budget) => (
+              <tr key={budget.id}> {/* 🔹 Se usa `budget.id` como `key` */}
+                <td>{budget.category}</td> {/* 🔹 Se muestra solo el nombre de la categoría */}
+                <td>S/. {budget.monthly_budget.toFixed(2)}</td>
                 <td>
                   <button className="btn btn-light" onClick={() => openEdit(budget)}>✏️</button>
                   <button className="btn btn-light text-danger" onClick={() => openDelete(budget)}>🗑️</button>
