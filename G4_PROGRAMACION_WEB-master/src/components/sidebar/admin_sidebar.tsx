@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LogoutModal from "../modales/ModalCerrarSesion";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,7 +48,7 @@ const AdminSidebar = () => {
           <>
             <div className="text-center mb-4">
               <img
-                src="/assets_admin/cara_admin.png"
+                src={URL_BACKEND + "/cara_admin.png"}
                 alt="User"
                 className="rounded-circle border shadow-sm mb-2"
                 width="80"
@@ -78,7 +78,7 @@ const AdminSidebar = () => {
                 className="nav-link py-2 text-danger border-0 bg-transparent text-start d-flex align-items-center mt-3"
                 onClick={() => setShowLogoutModal(true)}
               >
-                <img src="/assets_admin/salida_admin.png" alt="Salir" width="20" className="me-2" />
+                <img src={URL_BACKEND+"/salida_admin.png"} alt="Salir" width="20" className="me-2" />
                 Salir
               </button>
             </nav>

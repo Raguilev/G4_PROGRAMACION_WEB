@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LogoutModal from "../modales/ModalCerrarSesion";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 const UserSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,7 +55,7 @@ const UserSidebar = () => {
           <>
             <div className="text-center mb-4">
               <img
-                src="/assets_usuario/cara_usuario.png"
+                src={URL_BACKEND+"/cara_usuario.png"}
                 alt="User"
                 className="rounded-circle border shadow-sm mb-2"
                 width="80"
@@ -85,7 +85,7 @@ const UserSidebar = () => {
                 className="nav-link py-2 text-danger border-0 bg-transparent text-start d-flex align-items-center mt-3"
                 onClick={() => setShowLogoutModal(true)} // Muestra el modal al hacer clic
               >
-                <img src="/assets_usuario/salida_usuario.png" alt="Salir" width="20" className="me-2" />
+                <img src={URL_BACKEND+"/salida_usuario.png"} alt="Salir" width="20" className="me-2" />
                 Salir
               </button>
             </nav>
