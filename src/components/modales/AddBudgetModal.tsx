@@ -2,11 +2,11 @@ import { useState } from "react";
 
 interface AddBudgetModalProps {
   closeModal: () => void;
-  onBudgetAdded: () => void; // 🔹 Para recargar la lista después de agregar
-  userId: number; // 🔹 Ahora recibe `userId` como prop
+  onBudgetAdded: () => void;
+  userId: number; // 🔹 Ahora recibe `userId`
 }
 
-const API_BASE_URL = "http://localhost:5000/budgets"; // 🔹 Cambié a puerto 5000
+const API_BASE_URL = "http://localhost:5000/budgets"; // 🔹 Backend en puerto 5000
 
 const categories = [
   { id: 1, name: "Servicios" },
@@ -16,24 +16,24 @@ const categories = [
 
 const AddBudgetModal: React.FC<AddBudgetModalProps> = ({ closeModal, onBudgetAdded, userId }) => {
   const [categoryId, setCategoryId] = useState<number>(1);
-  const [monthlyBudget, setMonthlyBudget] = useState<string>("");
+  const [monthlyBudget, setMonthlyBudget] = useState<number>(0); // 🔹 Inicializa como número
 
   const handleSave = async () => {
-    if (!monthlyBudget || parseFloat(monthlyBudget) <= 0) return;
+    if (!monthlyBudget || monthlyBudget <= 0) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/${userId}`, { // 🔹 Ahora usa el `userId`
+      const response = await fetch(`${API_BASE_URL}/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           category_id: categoryId,
-          monthly_budget: parseFloat(monthlyBudget),
+          monthly_budget: monthlyBudget, // ✅ Ahora es número
         }),
       });
 
       if (!response.ok) throw new Error("Error al agregar presupuesto");
 
-      onBudgetAdded(); // 🔹 Recargar la lista en `Presupuestos.tsx`
+      onBudgetAdded(); // 🔹 Recargar lista en `Presupuestos.tsx`
       closeModal();
     } catch (error) {
       console.error("❌ Error agregando presupuesto:", error);
@@ -56,7 +56,7 @@ const AddBudgetModal: React.FC<AddBudgetModalProps> = ({ closeModal, onBudgetAdd
                   <select
                     className="form-select"
                     value={categoryId}
-                    onChange={(e) => setCategoryId(Number(e.target.value))}
+                    onChange={(e) => setCategoryId(Number(e.target.value))} // ✅ Convierte `string` a `number`
                   >
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.id}>
@@ -73,7 +73,7 @@ const AddBudgetModal: React.FC<AddBudgetModalProps> = ({ closeModal, onBudgetAdd
                     className="form-control"
                     placeholder="Ingresar monto en soles"
                     value={monthlyBudget}
-                    onChange={(e) => setMonthlyBudget(e.target.value)}
+                    onChange={(e) => setMonthlyBudget(parseFloat(e.target.value) || 0)} // ✅ Convierte `string` a `number`
                   />
                 </div>
               </form>

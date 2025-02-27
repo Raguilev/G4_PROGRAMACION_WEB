@@ -21,23 +21,41 @@ const Presupuestos = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
 //Bien
-  const userId = 1; // ⚠️ Asegurar que `userId` sea dinámico si usas autenticación
+const storedUser = sessionStorage.getItem("usuario"); // 🔥 Ahora busca la clave correcta
+const userData = storedUser ? JSON.parse(storedUser) : null;
+const userId = userData?.usuarioId ?? 0; // 🔥 Ahora obtiene "usuarioId" correctamente
 
+// Si `userId` es null, mostrar un mensaje de error
+if (!userId) {
+  console.error("❌ Error: No se encontró `userId`. Inicia sesión nuevamente.");
+  return <p>⚠ No se encontró el usuario. Inicia sesión nuevamente.</p>;
+}
   useEffect(() => {
-    fetchBudgets();
-  }, []);
+    if (userId) {
+      fetchBudgets();
+    }
+  }, [userId]);
 //Bien
 const fetchBudgets = async () => {
   try {
+    console.log(`🔍 Solicitando presupuestos en: ${API_URL}/${userId}`); // Debug
+
     const response = await fetch(`${API_URL}/${userId}`);
+    
+    if (!response.ok) {
+      console.error(`❌ Error ${response.status}: ${response.statusText}`);
+      return;
+    }
+
     const data = await response.json();
+    console.log("📌 Datos recibidos:", data);
 
     setBudgets(
       data.budgets.map((b: any) => ({
         id: b.id,
-        category_id: b.category_id ?? 0, // 🔹 Asegurar que `category_id` existe
-        category: b.Category?.name || "Desconocido", // 🔹 Evitar errores si `Category` es null
-        monthly_budget: b.monthly_budget,
+        category_id: b.category_id ?? 0,
+        category: b.Category?.name || "Desconocido",
+        monthly_budget: Number(b.monthly_budget) || 0, // 🔥 Convertir a número y evitar `null`
       }))
     );
   } catch (error) {
