@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AdminSidebar from "../components/sidebar/admin_sidebar";
 import ListaUsuariosTable from "../components/tablas/ListaUsuariosTable";
 import AddUserModal from "../components/modales/AddUserModal";
@@ -15,21 +15,22 @@ interface User {
 }
 
 const Usuarios = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
+  const [users, setUsers] = useState<User[]>([]);
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
   useEffect(() => {
     fetchUsers();
   }, []);
-
+  
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/users/list");
+      const response = await fetch(URL_BACKEND+"/users/list");
       const data = await response.json();
       const formattedUsers = data.users.map((user: any) => ({
         id: Number(user.id),
@@ -44,7 +45,7 @@ const Usuarios = () => {
       console.error("Error fetching users:", error);
     }
   };
-
+  
   return (
     <div className="d-flex">
       <AdminSidebar />
@@ -67,13 +68,6 @@ const Usuarios = () => {
           }}
         />
 
-        <AddUserModal show={showAddModal} onHide={() => setShowAddModal(false)} addUser={(newUser) => {
-          const newUserFormatted = { ...newUser, id: Number(newUser.id), password: newUser.password || "" };
-          setUsers([...users, newUserFormatted].sort((a, b) => a.id - b.id));
-          setFilteredUsers([...users, newUserFormatted].sort((a, b) => a.id - b.id));
-          fetchUsers();
-        }} />
-        
         <EditUserModal 
           show={showEditModal} 
           onHide={() => setShowEditModal(false)} 
@@ -84,14 +78,25 @@ const Usuarios = () => {
             fetchUsers();
           }} 
         />
+
+{showAddModal && (
+          <AddUserModal
+            show={showAddModal}
+            onHide={() => setShowAddModal(false)}
+            refreshusers={fetchUsers}
+          />
+        )}
+
+
+
         
-        <DeleteUserModal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} confirmDelete={() => {
-          if (selectedUser) {
-            setUsers(users.filter(u => u.id !== selectedUser.id).sort((a, b) => a.id - b.id));
-            setFilteredUsers(filteredUsers.filter(u => u.id !== selectedUser.id).sort((a, b) => a.id - b.id));
-            fetchUsers();
-          }
-        }} />
+    <DeleteUserModal
+      show={showDeleteModal} // ✅ Ahora se controla la visibilidad correctamente
+      closeModal={() => setShowDeleteModal(false)}
+      userId={selectedUser?.id || null} // ✅ Se pasa null si no hay usuario seleccionado
+      refreshUsers={fetchUsers} // ✅ Se actualiza la lista tras eliminar
+    />
+
         
         <FilterUserModal show={showFilterModal} onHide={() => setShowFilterModal(false)} filterUsers={(role) => {
           setFilteredUsers(users.filter(u => u.role === role).sort((a, b) => a.id - b.id));

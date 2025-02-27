@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar/user_sidebar";
 import PresupuestosTable from "../components/tablas/PresupuestosTable";
 import AddBudgetModal from "../components/modales/AddBudgetModal";
@@ -6,41 +6,104 @@ import EditBudgetModal from "../components/modales/EditBudgetModal";
 import DeleteBudgetModal from "../components/modales/DeleteBudgetModal";
 
 interface Budget {
+  id: number;
+  category_id: number;
   category: string;
-  amount: number;
+  monthly_budget: number;
 }
-
-const initialBudgets: Budget[] = [
-  { category: "Ocio", amount: 139.99 },
-  { category: "Servicios", amount: 1229.99 },
-  { category: "Alimentación", amount: 779.99 },
-];
-
+//Todo bien
+const API_URL = "http://localhost:5000/budgets";
+//Bien
 const Presupuestos = () => {
-  const [budgets, setBudgets] = useState<Budget[]>(initialBudgets);
+  const [budgets, setBudgets] = useState<Budget[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
+//Bien
+const storedUser = sessionStorage.getItem("usuario"); // 🔥 Ahora busca la clave correcta
+const userData = storedUser ? JSON.parse(storedUser) : null;
+const userId = userData?.usuarioId ?? 0; // 🔥 Ahora obtiene "usuarioId" correctamente
 
-  const handleAddBudget = (category: string, amount: number) => {
-    const newBudget = { category, amount };
-    setBudgets([...budgets, newBudget]);
-  };
+// Si `userId` es null, mostrar un mensaje de error
+if (!userId) {
+  console.error("❌ Error: No se encontró `userId`. Inicia sesión nuevamente.");
+  return <p>⚠ No se encontró el usuario. Inicia sesión nuevamente.</p>;
+}
+  useEffect(() => {
+    if (userId) {
+      fetchBudgets();
+    }
+  }, [userId]);
+//Bien
+const fetchBudgets = async () => {
+  try {
+    console.log(`🔍 Solicitando presupuestos en: ${API_URL}/${userId}`); // Debug
 
-  const handleUpdateBudget = (category: string, amount: number) => {
+    const response = await fetch(`${API_URL}/${userId}`);
+    
+    if (!response.ok) {
+      console.error(`❌ Error ${response.status}: ${response.statusText}`);
+      return;
+    }
+
+    const data = await response.json();
+    console.log("📌 Datos recibidos:", data);
+
     setBudgets(
-      budgets.map((b) =>
-        b.category === selectedBudget?.category ? { category, amount } : b
-      )
+      data.budgets.map((b: any) => ({
+        id: b.id,
+        category_id: b.category_id ?? 0,
+        category: b.Category?.name || "Desconocido",
+        monthly_budget: Number(b.monthly_budget) || 0, // 🔥 Convertir a número y evitar `null`
+      }))
     );
-    setShowEditModal(false);
+  } catch (error) {
+    console.error("❌ Error cargando presupuestos:", error);
+  }
+};
+  // ✅ Agregar presupuesto
+  const handleAddBudget = async (category_id: number, monthly_budget: number) => {
+    try {
+      const response = await fetch(`${API_URL}/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category_id, monthly_budget }),
+      });
+      const data = await response.json();
+      if (data.alerta) {
+        alert(data.alerta); // 🔥 Muestra la alerta si el presupuesto es superado
+    }
+      setShowAddModal(false);
+      fetchBudgets();
+    } catch (error) {
+      console.error("❌ Error agregando presupuesto:", error);
+    }
   };
 
-  const handleDeleteBudget = () => {
-    if (selectedBudget) {
-      setBudgets(budgets.filter((b) => b.category !== selectedBudget.category));
+  // ✅ Actualizar presupuesto
+  const handleUpdateBudget = async (id: number, category_id: number, monthly_budget: number) => {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category_id, monthly_budget }),
+      });
+      setShowEditModal(false);
+      fetchBudgets();
+    } catch (error) {
+      console.error("❌ Error actualizando presupuesto:", error);
+    }
+  };
+
+  // ✅ Eliminar presupuesto
+  const handleDeleteBudget = async (id: number) => {
+    try {
+      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
       setShowDeleteModal(false);
+      fetchBudgets();
+    } catch (error) {
+      console.error("❌ Error eliminando presupuesto:", error);
     }
   };
 
@@ -62,7 +125,10 @@ const Presupuestos = () => {
           <PresupuestosTable
             budgets={budgets}
             openEdit={(budget) => {
-              setSelectedBudget(budget);
+              setSelectedBudget({
+                ...budget,
+                category_id: budget.category_id ?? 0, // 🔹 Asegurar `category_id`
+              });
               setShowEditModal(true);
             }}
             openDelete={(budget) => {
@@ -73,19 +139,27 @@ const Presupuestos = () => {
 
           {/* Modales */}
           {showAddModal && (
-            <AddBudgetModal closeModal={() => setShowAddModal(false)} addBudget={handleAddBudget} />
+            <AddBudgetModal
+              closeModal={() => setShowAddModal(false)}
+              onBudgetAdded={fetchBudgets}
+              userId={userId}
+            />
           )}
 
           {showEditModal && selectedBudget && (
             <EditBudgetModal
               closeModal={() => setShowEditModal(false)}
               budget={selectedBudget}
-              updateBudget={handleUpdateBudget}
+              onBudgetUpdated={fetchBudgets}
             />
           )}
 
           {showDeleteModal && selectedBudget && (
-            <DeleteBudgetModal closeModal={() => setShowDeleteModal(false)} deleteBudget={handleDeleteBudget} />
+            <DeleteBudgetModal
+              closeModal={() => setShowDeleteModal(false)}
+              budgetId={selectedBudget.id}
+              onBudgetDeleted={fetchBudgets}
+            />
           )}
         </div>
       </div>

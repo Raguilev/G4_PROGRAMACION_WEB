@@ -1,41 +1,52 @@
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import { saveAs } from "file-saver";
-import Papa from "papaparse";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 interface ExportarDatosProps {
-  data: any[];
   filename?: string;
+  userId: number | null; // ✅ Se agrega el userId
 }
 
-const ExportarDatos: React.FC<ExportarDatosProps> = ({ data, filename = "egresos" }) => {
-  
-  const handleExportPDF = () => {
-    const pdf = new jsPDF();
-    pdf.text("Reporte de Egresos", 10, 10);
-    const tableData = data.map(item => [item.date, item.category, item.description, item.recurring ? "Sí" : "No", `S/. ${item.amount.toFixed(2)}`]);
+const ExportarDatos = ({  userId }: ExportarDatosProps) => {
 
-    (pdf as any).autoTable({
-      head: [["Fecha", "Categoría", "Descripción", "Recurrente", "Monto"]],
-      body: tableData
-    });
+  const handleExportPDF = async () => {
+    try {
+        if (!userId) return;
 
-    pdf.save(`${filename}.pdf`);
-  };
+        const response = await fetch(`http://localhost:5000/expenses/${userId}/export/pdf`);
+        if (!response.ok) throw new Error("Error al exportar PDF");
 
-  const handleExportCSV = () => {
-    const csv = Papa.unparse(data.map(item => ({
-      Fecha: item.date,
-      Categoría: item.category,
-      Descripción: item.description,
-      Recurrente: item.recurring ? "Sí" : "No",
-      Monto: `S/. ${item.amount.toFixed(2)}`
-    })));
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, `${filename}.csv`);
-  };
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `gastos_usuario_${userId}.pdf`;
+        link.click();
+
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("❌ Error al exportar PDF:", error);
+    }
+};
+
+const handleExportCSV = async () => {
+  try {
+      if (!userId) return; // ✅ Evitar exportar si no hay userId
+
+      const response = await fetch(`http://localhost:5000/expenses/${userId}/export/csv`);
+      if (!response.ok) throw new Error("Error al exportar CSV");
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `gastos_usuario_${userId}.csv`;
+      link.click();
+
+      URL.revokeObjectURL(url);
+  } catch (error) {
+      console.error("❌ Error al exportar CSV:", error);
+  }
+};
+
 
   return (
     <div className="btn-group">

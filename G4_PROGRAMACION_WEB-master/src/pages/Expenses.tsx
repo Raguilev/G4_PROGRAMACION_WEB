@@ -17,13 +17,13 @@ const Expenses = () => {
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
     const [showFilterModal, setShowFilterModal] = useState(false);
 
-    // 🔥 Obtener `user_id` desde sessionStorage
     const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
+    const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000";
 
     const httpObtenerExpenses = async () => {
-        if (!userId) return; // 🔥 No cargar si no hay usuario
+        if (!userId) return;
 
-        const url = `http://localhost:5000/expenses/${userId}`;
+        const url = `${URL_BACKEND}/expenses/${userId}`;
         try {
             const resp = await fetch(url);
             const data = await resp.json();
@@ -38,6 +38,7 @@ const Expenses = () => {
             console.error("❌ Error al conectar con el servidor:", error);
         }
     };
+
 
     useEffect(() => {
         httpObtenerExpenses();
@@ -55,7 +56,7 @@ const Expenses = () => {
 
                     <div className="d-flex gap-2 mb-3">
                         <button className="btn btn-outline-primary" onClick={() => setShowFilterModal(true)}>🔍 Filtrar</button>
-                        <ExportarDatos data={expenses} filename="gastos" />
+                        <ExportarDatos filename="gastos" userId={userId} />
                         <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>➕ Agregar Gasto</button>
                     </div>
 
@@ -65,6 +66,7 @@ const Expenses = () => {
                             setSelectedExpense(expense);
                             setShowEditModal(true);
                         }}
+
                         openDelete={(expenseId) => {
                             setExpenseToDelete(expenseId);
                             setShowDeleteModal(true);
@@ -74,22 +76,33 @@ const Expenses = () => {
                     {showAddModal && (
                         <AddExpenseModal
                             closeModal={() => setShowAddModal(false)}
-                            refreshExpenses={httpObtenerExpenses} // 🔥 Se recarga la lista después de agregar
+                            refreshExpenses={httpObtenerExpenses}
                         />
                     )}
 
-                    
+                    {showEditModal && selectedExpense && (
+                        <EditExpenseModal
+                            expense={selectedExpense} // 🔥 Pasar el objeto completo
+                            closeModal={() => setShowEditModal(false)}
+                            refreshExpenses={httpObtenerExpenses}
+                        />
+                    )}
+
 
                     {showDeleteModal && (
                         <DeleteExpenseModal
-                            expenseId={expenseToDelete} // ✅ Pasamos el ID del gasto
+                            expenseId={expenseToDelete}
                             closeModal={() => setShowDeleteModal(false)}
-                            refreshExpenses={httpObtenerExpenses} // ✅ Recarga la lista después de eliminar
+                            refreshExpenses={httpObtenerExpenses}
                         />
                     )}
 
                     {showFilterModal && (
-                        <ModalFiltrarGastos showModal={showFilterModal} closeModal={() => setShowFilterModal(false)} />
+                        <ModalFiltrarGastos
+                            showModal={showFilterModal}
+                            closeModal={() => setShowFilterModal(false)}
+                            applyFilters={httpObtenerExpenses}
+                        />
                     )}
                 </div>
             </div>

@@ -45,9 +45,13 @@ const HistorialTable = (props: HistorialTableProps) => {
                   <p className="text-danger m-0 fw-bold">Borrar ❌</p>
                 ) : item.action === "Agregar" ? (
                   <p className="text-success m-0 fw-bold">Agregar ✚</p>
+                ): item.action === "Login" ? (
+                  <p className="m-0 fw-bold" style={{ color: '#8d2dff ' }}>Login 👤 </p>
                 ) : (
                   <p className="m-0 fw-bold" style={{ color: '#ff822d' }}>Editar ✏️</p>
-                )}
+                ) 
+                
+                }
               </td>
             </tr>
           ))}

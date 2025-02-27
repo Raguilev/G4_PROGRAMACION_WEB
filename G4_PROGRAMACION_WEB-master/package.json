@@ -1,11 +1,14 @@
 {
   "name": "login-app",
+  "homepage": "https://raguilev.github.io/G4_PROGRAMACION_WEB/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
 const Login = () => {
     const navigate = useNavigate();
     const [error, setError] = useState("");
@@ -41,14 +41,36 @@ const Login = () => {
             sessionStorage.setItem("usuario", JSON.stringify(userData));
 
             setTimeout(() => {
-                navigate(data.role === 1 ? "/admin_dashboard" : "/dashboard");
+                if (data.role === 1) navigate("/admin_dashboard");
+                else {AddLogLogin();
+                    navigate("/dashboard");}
+                
             }, 100);
         } else {
             setError("Credenciales incorrectas o cuenta no verificada.");
             setTimeout(() => setError(""), 3000);
         }
     };
-
+    
+    const AddLogLogin = async () => {
+      const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
+      const url = URL_BACKEND+`/access-logs/${userId}`;
+      const resp = await fetch(url, {
+          method : "POST",
+          body : JSON.stringify({
+              action : "Login",
+              firstaccess : false
+          }),
+          headers : {
+              "Content-Type": "application/json",
+          }
+      })
+      const data = await resp.json()
+      if (data.msg == "") {
+          
+          console.log("Se agrego el log correctamente")
+          }
+      }
     const verificarUsuario = async () => {
         if (!email.trim()) {
             setError("Ingrese un email válido.");

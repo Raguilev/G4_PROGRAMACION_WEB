@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
 interface DeleteExpenseModalProps {
   expenseId: number | null;
   closeModal: () => void;
@@ -25,6 +25,7 @@ const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, clos
       }
 
       console.log("📌 Gasto eliminado correctamente");
+      AddLogEliminar();
       refreshExpenses(); // ✅ Recargar la lista de gastos
       closeModal();
     } catch (err) {
@@ -32,7 +33,25 @@ const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, clos
       setError("No se pudo conectar con el servidor.");
     }
   };
-
+  
+    const AddLogEliminar = async () => {
+      const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
+        const url = URL_BACKEND+`/access-logs/${userId}`;
+        const resp = await fetch(url, {
+            method : "POST",
+            body : JSON.stringify({
+                action : "Eliminar",
+                firstaccess : false
+            }),
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await resp.json()
+        if (data.msg == "") {
+            console.log("Se agrego el log correctamente")
+        }
+    }
   return (
     <>
       <div className="modal-backdrop fade show"></div>

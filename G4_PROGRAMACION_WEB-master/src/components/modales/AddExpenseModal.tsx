@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
 interface AddExpenseModalProps {
   closeModal: () => void;
   refreshExpenses: () => void; // 🔥 Se llama para recargar los gastos después de agregar uno nuevo
@@ -50,7 +50,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
       }
 
       console.log("✅ Gasto agregado con éxito:", data);
-
+      AddLogAgregarExpense();
       refreshExpenses(); // 🔥 Actualiza la lista de gastos después de agregar uno nuevo
       closeModal();
     } catch (error) {
@@ -58,7 +58,23 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
       console.error("Error al agregar gasto:", error);
     }
   };
-
+  const AddLogAgregarExpense = async () => {
+    const url = URL_BACKEND+`/access-logs/${userId}`;
+    const resp = await fetch(url, {
+        method : "POST",
+        body : JSON.stringify({
+            action : "Agregar",
+            firstaccess : false
+        }),
+        headers : {
+            "Content-Type": "application/json",
+        }
+    })
+    const data = await resp.json()
+    if (data.msg == "") {
+        console.log("Se agrego el log correctamente")
+        }
+    }
   return (
     <>
       <div className="modal-backdrop fade show"></div>
