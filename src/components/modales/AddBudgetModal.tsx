@@ -16,7 +16,7 @@ const categories = [
 
 const AddBudgetModal: React.FC<AddBudgetModalProps> = ({ closeModal, onBudgetAdded, userId }) => {
   const [categoryId, setCategoryId] = useState<number>(1);
-  const [monthlyBudget, setMonthlyBudget] = useState<number>(0); // 🔹 Inicializa como número
+  const [monthlyBudget, setMonthlyBudget] = useState<number>(); // 🔹 Inicializa como número
 
   const handleSave = async () => {
     if (!monthlyBudget || monthlyBudget <= 0) return;

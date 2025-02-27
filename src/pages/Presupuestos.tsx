@@ -76,7 +76,7 @@ const fetchBudgets = async () => {
       console.error("❌ Error agregando presupuesto:", error);
     }
   };
-
+  
   // ✅ Actualizar presupuesto
   const handleUpdateBudget = async (id: number, category_id: number, monthly_budget: number) => {
     try {
