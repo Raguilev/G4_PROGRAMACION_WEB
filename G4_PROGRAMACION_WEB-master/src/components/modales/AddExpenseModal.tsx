@@ -79,8 +79,8 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
               <select className="form-select" value={categoryId} onChange={(e) => setCategoryId(Number(e.target.value))}>
                 <option>----- Seleccionar -----</option>
                 <option value={1}>Servicios</option>
-                <option value={2}>Alimentación</option>
-                <option value={3}>Ocio</option>
+                <option value={2}>Ocio</option>
+                <option value={3}>Alimentacion</option>
               </select>
 
               <div className="form-check mt-3">
