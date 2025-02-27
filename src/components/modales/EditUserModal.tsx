@@ -1,4 +1,3 @@
-/*
 import React, { useState, useEffect } from "react";
 
 interface User {
@@ -34,6 +33,33 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updat
     }
   };
 
+  const editUser = async (userId: string | number, userData: User) => {
+    try {
+      const token = localStorage.getItem("token"); // Obtén el token de autenticación
+      const response = await fetch(`http://localhost:5000/users/EditarUsuario/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al editar el usuario");
+      }
+  
+      const data = await response.json();
+      return data; // Devuelve el usuario actualizado
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+
+
+
   return (
     <>
     {show && <div className="modal-backdrop fade show"></div>}
@@ -65,4 +91,3 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updat
 
 export default EditUserModal;
 
-*/

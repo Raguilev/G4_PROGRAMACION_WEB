@@ -6,6 +6,30 @@ interface DeleteUserModalProps {
   confirmDelete: () => void;
 }
 
+const deleteUser = async (userId: string | number) => {
+  try {
+    const token = localStorage.getItem("token"); // Obtén el token de autenticación
+    const response = await fetch(`http://localhost:5000/users/EliminarUsuario/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al eliminar el usuario");
+    }
+
+    const data = await response.json();
+    return data; // Devuelve el mensaje de éxito
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+
 const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ show, onHide, confirmDelete }) => (
   <>
   {show && <div className="modal-backdrop fade show"></div>}
