@@ -65,18 +65,22 @@ const fetchBudgets = async () => {
   // ✅ Agregar presupuesto
   const handleAddBudget = async (category_id: number, monthly_budget: number) => {
     try {
-      await fetch(`${API_URL}/${userId}`, {
+      const response = await fetch(`${API_URL}/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ category_id, monthly_budget }),
       });
+      const data = await response.json();
+      if (data.alerta) {
+        alert(data.alerta); // 🔥 Muestra la alerta si el presupuesto es superado
+    }
       setShowAddModal(false);
       fetchBudgets();
     } catch (error) {
       console.error("❌ Error agregando presupuesto:", error);
     }
   };
-  
+
   // ✅ Actualizar presupuesto
   const handleUpdateBudget = async (id: number, category_id: number, monthly_budget: number) => {
     try {
