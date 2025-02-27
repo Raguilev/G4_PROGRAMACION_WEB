@@ -62,7 +62,7 @@ const fetchBudgets = async () => {
     console.error("❌ Error cargando presupuestos:", error);
   }
 };
-  // ✅ Agregar presupuesto
+/*  // ✅ Agregar presupuesto
   const handleAddBudget = async (category_id: number, monthly_budget: number) => {
     try {
       const response = await fetch(`${API_URL}/${userId}`, {
@@ -106,7 +106,7 @@ const fetchBudgets = async () => {
       console.error("❌ Error eliminando presupuesto:", error);
     }
   };
-
+*/
   return (
     <div className="container-fluid bg-light">
       <div className="row">

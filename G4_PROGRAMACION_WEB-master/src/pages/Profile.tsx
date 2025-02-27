@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar/user_sidebar";
-import EditProfileModal from "../components/modales/EditProfileModal";
+//import EditProfileModal from "../components/modales/EditProfileModal";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ name: string; email: string; role:string} | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [/*showModal*/, setShowModal] = useState(false);
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("usuario");
@@ -29,18 +29,19 @@ const Profile = () => {
   }, [navigate]);
   
 
-  const updateUser = (updatedUser: { name: string; email: string; password: string }) => {
+  /*const updateUser = (updatedUser: { name: string; email: string; role: string }) => {
     if (updatedUser.name && updatedUser.email) {
       setUser(updatedUser);
       sessionStorage.setItem("nombre", updatedUser.name);
       sessionStorage.setItem("email", updatedUser.email);
-      sessionStorage.setItem("password", updatedUser.password);
+      sessionStorage.setItem("role", updatedUser.role);
+      
       console.log("🔹 Usuario actualizado:", updatedUser);
     } else {
       console.error("⚠️ Error: Datos de usuario inválidos.");
     }
   };
-
+*/
   return (
     <div className="d-flex">
       <Sidebar />
@@ -56,17 +57,17 @@ const Profile = () => {
             </div>
             <p><strong>Nombre:</strong> {user.name}</p>
             <p><strong>Correo electrónico:</strong> {user.email}</p>
-            <p><strong>Contraseña:</strong> {user.password}</p>
+            <p><strong>Contraseña:</strong> </p>
           </div>
         )}
-        {showModal && (
+        {/*showModal && (
           <EditProfileModal 
             user={user!} 
             showModal={showModal} 
             closeModal={() => setShowModal(false)} 
             updateUser={updateUser} 
           />
-        )}
+        )*/}
       </div>
     </div>
   );
