@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/admin_sidebar";
 import HistorialTable, { HistorialItem } from "../components/tablas/HistorialTable";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 
 const HistorialAdmin = () => {
   const [historial, setHistorial] = useState<HistorialItem[]>([])
 
   const httpObtenerHistorial = async () => {
-    const url = "http://localhost:5000/access-logs"
+    const url = URL_BACKEND+"/access-logs"
     const resp = await fetch(url);
     const data = await resp.json();
     if (data.msg === "") {

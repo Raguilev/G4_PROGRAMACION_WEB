@@ -1,5 +1,5 @@
 import { useState } from "react";
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 interface AddExpenseModalProps {
   closeModal: () => void;
   refreshExpenses: () => void; // 🔥 Se llama para recargar los gastos después de agregar uno nuevo
@@ -37,7 +37,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/expenses/${userId}`, {
+      const response = await fetch(URL_BACKEND+`/expenses/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newExpense),

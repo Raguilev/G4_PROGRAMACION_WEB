@@ -7,11 +7,11 @@ const Registro = () => {
     const [password, setPassword] = useState("");
     const [mensaje, setMensaje] = useState("");
     const navigate = useNavigate();
-    const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
+    const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
     const handleRegister = async () => {
         console.log("🔹 Enviando datos de registro:", { name, email, password });
 
-        const url = "http://localhost:5000/users/register";
+        const url = URL_BACKEND+"/users/register";
 
         const resp = await fetch(url, {
             method: "POST",

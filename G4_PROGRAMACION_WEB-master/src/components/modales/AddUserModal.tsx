@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 interface User {
   id: string;
   name: string;
@@ -30,7 +30,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onHide }) => {
     setMessage(null); // Resetear mensaje
 
     try {
-      const response = await fetch("http://localhost:5000/users/AgregarUsuario", {
+      const response = await fetch(URL_BACKEND+"/users/AgregarUsuario", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -3,8 +3,8 @@ interface DeleteBudgetModalProps {
   budgetId: number; // 🔹 Se añade el ID del presupuesto a eliminar
   onBudgetDeleted: () => void; // 🔹 Para refrescar la lista después de eliminar
 }
-
-const API_BASE_URL = "http://localhost:5000/budgets"; // 🔹 Asegurar que usa el puerto correcto
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
+const API_BASE_URL = URL_BACKEND+"/budgets"; // 🔹 Asegurar que usa el puerto correcto
 
 const DeleteBudgetModal: React.FC<DeleteBudgetModalProps> = ({ closeModal, budgetId, onBudgetDeleted }) => {
   

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/user_sidebar";
 import GraficoGastoMensual from "../components/graficos/GraficoGastoMensual";
 import GraficoGastoCategoria from "../components/graficos/GraficoGastoCategoria";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
 
 const DashboardUsuarioPage = () => {
@@ -10,7 +10,7 @@ const DashboardUsuarioPage = () => {
     const [gastoCategoria, setGastoCategoria] = useState<Record<string, number>>({});
 
     const obtenerGastoMensual = async () => {
-        const url = `http://localhost:5000/expenses/summary/monthly/${userId}`;
+        const url = `${URL_BACKEND}/expenses/summary/monthly/${userId}`;
         const resp = await fetch(url);
         const data = await resp.json();
         if (data.msg === "") {
@@ -21,7 +21,7 @@ const DashboardUsuarioPage = () => {
     };
 
     const obtenerGastoCategoria = async () => {
-        const url = `http://localhost:5000/expenses/summary/category/${userId}`;
+        const url = `${URL_BACKEND}/expenses/summary/category/${userId}`;
         const resp = await fetch(url);
         const data = await resp.json();
         if (data.msg === "") {

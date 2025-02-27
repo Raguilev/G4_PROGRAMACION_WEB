@@ -23,7 +23,7 @@ const Usuarios = () => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
-  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
   useEffect(() => {
     fetchUsers();
   }, []);

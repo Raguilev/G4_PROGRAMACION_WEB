@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 const ForgotPassword = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,7 +18,7 @@ const ForgotPassword = () => {
             return;
         }
 
-        const resp = await fetch("http://localhost:5000/users/reset-password", {
+        const resp = await fetch(URL_BACKEND+"/users/reset-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, newPassword }),

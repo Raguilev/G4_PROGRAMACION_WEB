@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 interface User {
   id: number;
   name: string;
@@ -32,7 +32,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ show, onHide, user, updat
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/users/EditarUsuario/${editedUser.id}`, {
+      const response = await fetch(`${URL_BACKEND}/users/EditarUsuario/${editedUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

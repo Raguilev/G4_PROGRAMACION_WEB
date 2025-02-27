@@ -1,12 +1,12 @@
 import { useState } from "react";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 interface AddBudgetModalProps {
   closeModal: () => void;
   onBudgetAdded: () => void;
   userId: number; // 🔹 Ahora recibe `userId`
 }
 
-const API_BASE_URL = "http://localhost:5000/budgets"; // 🔹 Backend en puerto 5000
+const API_BASE_URL = URL_BACKEND+"/budgets"; // 🔹 Backend en puerto 5000
 
 const categories = [
   { id: 1, name: "Servicios" },

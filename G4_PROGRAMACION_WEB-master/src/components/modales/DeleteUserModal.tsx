@@ -7,7 +7,7 @@ interface DeleteUserModalProps {
   refreshUsers: () => void; // ✅ Recargar usuarios después de eliminar
 }
 
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000";
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 
 const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ show, userId, closeModal, refreshUsers }) => {
   const [error, setError] = useState<string>("");

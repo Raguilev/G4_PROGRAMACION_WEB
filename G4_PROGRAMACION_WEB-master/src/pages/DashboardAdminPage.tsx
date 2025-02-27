@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import GraficoUsuarios from "../components/graficos/GraficoUsuarios";
 import Sidebar from "../components/sidebar/admin_sidebar";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 const DashboardAdminPage = () => {
 
   const [totalUsers, setTotalUsers] = useState<number>(0)
   const [monthlyData, setMonthlyData] = useState<Record<string, number>>({});
 
   const httpObtenerTotalUsuarios = async () => {
-    const url = "http://localhost:5000/users/totalUsers";
+    const url = URL_BACKEND+"/users/totalUsers";
     const resp = await fetch(url);
     const data = await resp.json();
     if (data.msg === "") {
@@ -19,7 +19,7 @@ const DashboardAdminPage = () => {
   }
 
   const httpObtenerResumen = async () => {
-    const url = "http://localhost:5000/access-logs/summary";
+    const url = URL_BACKEND+"/access-logs/summary";
     const resp = await fetch(url);
     const data = await resp.json();
     if (data.msg === "") {

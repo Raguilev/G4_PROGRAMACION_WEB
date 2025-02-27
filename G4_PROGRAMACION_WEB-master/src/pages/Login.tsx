@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND
 const Login = () => {
     const navigate = useNavigate();
     const [error, setError] = useState("");
@@ -20,7 +20,7 @@ const Login = () => {
 
         const userData = { email, password };
 
-        const resp = await fetch("http://localhost:5000/users/login", {
+        const resp = await fetch(URL_BACKEND+"/users/login", {
             method: "POST",
             body: JSON.stringify(userData),
             headers: { "Content-Type": "application/json" },
@@ -77,7 +77,7 @@ const Login = () => {
             return;
         }
 
-        const resp = await fetch(`http://localhost:5000/users/verify-user`, {
+        const resp = await fetch(`${URL_BACKEND}/users/verify-user`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),

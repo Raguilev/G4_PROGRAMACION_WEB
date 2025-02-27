@@ -2,14 +2,14 @@ interface ExportarDatosProps {
   filename?: string;
   userId: number | null; // ✅ Se agrega el userId
 }
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 const ExportarDatos = ({  userId }: ExportarDatosProps) => {
 
   const handleExportPDF = async () => {
     try {
         if (!userId) return;
 
-        const response = await fetch(`http://localhost:5000/expenses/${userId}/export/pdf`);
+        const response = await fetch(`${URL_BACKEND}/expenses/${userId}/export/pdf`);
         if (!response.ok) throw new Error("Error al exportar PDF");
 
         const blob = await response.blob();
@@ -30,7 +30,7 @@ const handleExportCSV = async () => {
   try {
       if (!userId) return; // ✅ Evitar exportar si no hay userId
 
-      const response = await fetch(`http://localhost:5000/expenses/${userId}/export/csv`);
+      const response = await fetch(`${URL_BACKEND}/expenses/${userId}/export/csv`);
       if (!response.ok) throw new Error("Error al exportar CSV");
 
       const blob = await response.blob();

@@ -4,7 +4,7 @@ import PresupuestosTable from "../components/tablas/PresupuestosTable";
 import AddBudgetModal from "../components/modales/AddBudgetModal";
 import EditBudgetModal from "../components/modales/EditBudgetModal";
 import DeleteBudgetModal from "../components/modales/DeleteBudgetModal";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 interface Budget {
   id: number;
   category_id: number;
@@ -12,7 +12,7 @@ interface Budget {
   monthly_budget: number;
 }
 //Todo bien
-const API_URL = "http://localhost:5000/budgets";
+const API_URL = URL_BACKEND+"/budgets";
 //Bien
 const Presupuestos = () => {
   const [budgets, setBudgets] = useState<Budget[]>([]);

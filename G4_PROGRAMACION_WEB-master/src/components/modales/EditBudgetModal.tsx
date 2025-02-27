@@ -1,12 +1,12 @@
 import { useState } from "react";
-
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
 interface EditBudgetModalProps {
   closeModal: () => void;
   budget: { id: number; category_id: number; monthly_budget: number }; // 🔹 Se añade `id`
   onBudgetUpdated: () => void; // 🔹 Para recargar la lista después de actualizar
 }
 
-const API_BASE_URL = "http://localhost:5000/budgets"; // 🔹 Usamos el puerto 5000
+const API_BASE_URL = URL_BACKEND+"/budgets"; // 🔹 Usamos el puerto 5000
 
 const categories = [
   { id: 1, name: "Servicios" },
