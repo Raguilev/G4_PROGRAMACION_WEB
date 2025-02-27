@@ -5,7 +5,7 @@ const ForgotPassword = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const usuario = queryParams.get("user") || "";
+    const email = queryParams.get("email") || "";
 
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,13 +21,13 @@ const ForgotPassword = () => {
         const resp = await fetch("http://localhost:5000/users/reset-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ usuario, newPassword }),
+            body: JSON.stringify({ email, newPassword }),
         });
 
         const data = await resp.json();
         if (data.success) {
             setMessage("Contraseña actualizada correctamente.");
-            setTimeout(() => navigate("/"), 2000); // Redirige al login después de 2s
+            setTimeout(() => navigate("/"), 2000);
         } else {
             setError("Error al actualizar la contraseña.");
         }
