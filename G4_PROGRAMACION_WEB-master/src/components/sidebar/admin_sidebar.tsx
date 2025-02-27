@@ -29,10 +29,10 @@ const AdminSidebar = () => {
   }, [navigate]);
   
   const navItems = [
-    { path: "/admin_dashboard", label: "Dashboard", icon: "/assets_admin/grafico_admin.png" },
-    { path: "/usuarios", label: "Usuarios", icon: "/assets_admin/usuarios.png" },
-    { path: "/historial", label: "Historial", icon: "/assets_admin/historial.png" },
-    { path: "/admin_profile", label: "Configuración", icon: "/assets_admin/configuracion_admin.png" }
+    { path: "/admin_dashboard", label: "Dashboard", icon: URL_BACKEND+"/grafico_admin.png" },
+    { path: "/usuarios", label: "Usuarios", icon: URL_BACKEND+"/usuarios.png" },
+    { path: "/historial", label: "Historial", icon: URL_BACKEND+"/historial.png" },
+    { path: "/admin_profile", label: "Configuración", icon: URL_BACKEND+"/configuracion_admin.png" }
   ];
 
   const handleLogout = () => {

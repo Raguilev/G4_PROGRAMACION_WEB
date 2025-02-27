@@ -36,10 +36,10 @@ const UserSidebar = () => {
   
 
   const navItems = [
-    { path: "/dashboard", label: "Dashboard", icon: "/assets_usuario/grafico_usuario.png" },
-    { path: "/expenses", label: "Gastos", icon: "/assets_usuario/gasto.png" },
-    { path: "/budgets", label: "Presupuestos", icon: "/assets_usuario/money.png" },
-    { path: "/profile", label: "Configuración", icon: "/assets_usuario/configuracion_usuario.png" }
+    { path: "/dashboard", label: "Dashboard", icon: URL_BACKEND+"/grafico_usuario.png" },
+    { path: "/expenses", label: "Gastos", icon: URL_BACKEND+"/gasto.png" },
+    { path: "/budgets", label: "Presupuestos", icon: URL_BACKEND+"/money.png" },
+    { path: "/profile", label: "Configuración", icon: URL_BACKEND+"/configuracion_usuario.png" }
   ];
 
   const handleLogout = () => {
